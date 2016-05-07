@@ -150,6 +150,17 @@ struct Position: Hashable {
             return true
         }
     }
+    
+    ///
+    /// Checks if the specified position is adjacent to another position
+    ///
+    func isAdjacentTo(position: Position) -> Bool {
+        return
+            self.neighbors.top == position ||
+            self.neighbors.right == position ||
+            self.neighbors.bottom == position ||
+            self.neighbors.left == position
+    }
 }
 
 

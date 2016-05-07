@@ -16,6 +16,11 @@
 		FA8C69921CDD6CA40001CD48 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C69911CDD6CA40001CD48 /* Player.swift */; };
 		FA8C69941CDD746E0001CD48 /* HumanPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C69931CDD746E0001CD48 /* HumanPlayer.swift */; };
 		FA8C69961CDD74730001CD48 /* ComputerPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C69951CDD74730001CD48 /* ComputerPlayer.swift */; };
+		FA8C699A1CDD9CA50001CD48 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C69991CDD9CA50001CD48 /* Move.swift */; };
+		FA8C699C1CDDA0120001CD48 /* TakeMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C699B1CDDA0120001CD48 /* TakeMove.swift */; };
+		FA8C699E1CDDA2D10001CD48 /* PlaceMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C699D1CDDA2D10001CD48 /* PlaceMove.swift */; };
+		FA8C69A01CDDA4A50001CD48 /* FlyMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C699F1CDDA4A50001CD48 /* FlyMove.swift */; };
+		FA8C69A21CDDA5210001CD48 /* SlideMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C69A11CDDA5210001CD48 /* SlideMove.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,6 +46,11 @@
 		FA8C69911CDD6CA40001CD48 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		FA8C69931CDD746E0001CD48 /* HumanPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HumanPlayer.swift; sourceTree = "<group>"; };
 		FA8C69951CDD74730001CD48 /* ComputerPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComputerPlayer.swift; sourceTree = "<group>"; };
+		FA8C69991CDD9CA50001CD48 /* Move.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
+		FA8C699B1CDDA0120001CD48 /* TakeMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TakeMove.swift; sourceTree = "<group>"; };
+		FA8C699D1CDDA2D10001CD48 /* PlaceMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceMove.swift; sourceTree = "<group>"; };
+		FA8C699F1CDDA4A50001CD48 /* FlyMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlyMove.swift; sourceTree = "<group>"; };
+		FA8C69A11CDDA5210001CD48 /* SlideMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SlideMove.swift; path = "nine-mans-morris/SlideMove.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +67,7 @@
 		FA7214021CDC0E5300ADD604 = {
 			isa = PBXGroup;
 			children = (
+				FA8C69A11CDDA5210001CD48 /* SlideMove.swift */,
 				FA72140D1CDC0E5300ADD604 /* nine-mans-morris */,
 				FA72140C1CDC0E5300ADD604 /* Products */,
 			);
@@ -73,8 +84,12 @@
 		FA72140D1CDC0E5300ADD604 /* nine-mans-morris */ = {
 			isa = PBXGroup;
 			children = (
+				FA8C699F1CDDA4A50001CD48 /* FlyMove.swift */,
+				FA8C699D1CDDA2D10001CD48 /* PlaceMove.swift */,
+				FA8C699B1CDDA0120001CD48 /* TakeMove.swift */,
 				FA8C69911CDD6CA40001CD48 /* Player.swift */,
 				FA8C69931CDD746E0001CD48 /* HumanPlayer.swift */,
+				FA8C69991CDD9CA50001CD48 /* Move.swift */,
 				FA8C69951CDD74730001CD48 /* ComputerPlayer.swift */,
 				FA8C698F1CDD67F50001CD48 /* Token.swift */,
 				FA7214191CDC120500ADD604 /* Board.swift */,
@@ -143,14 +158,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA8C699A1CDD9CA50001CD48 /* Move.swift in Sources */,
 				FA72140F1CDC0E5300ADD604 /* main.swift in Sources */,
+				FA8C69A01CDDA4A50001CD48 /* FlyMove.swift in Sources */,
 				FA8C69901CDD67F50001CD48 /* Token.swift in Sources */,
+				FA8C69A21CDDA5210001CD48 /* SlideMove.swift in Sources */,
 				FA8C69961CDD74730001CD48 /* ComputerPlayer.swift in Sources */,
 				FA8C69941CDD746E0001CD48 /* HumanPlayer.swift in Sources */,
 				FA7214161CDC0E6700ADD604 /* Game.swift in Sources */,
+				FA8C699C1CDDA0120001CD48 /* TakeMove.swift in Sources */,
 				FA8C698E1CDD5CD00001CD48 /* Int+nthBit.swift in Sources */,
 				FA8C69921CDD6CA40001CD48 /* Player.swift in Sources */,
 				FA72141A1CDC120500ADD604 /* Board.swift in Sources */,
+				FA8C699E1CDDA2D10001CD48 /* PlaceMove.swift in Sources */,
 				FA7214181CDC114E00ADD604 /* Position.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -56,4 +56,12 @@ struct ComputerPlayer: Player {
         }
         return nil
     }
+    
+    ///
+    /// Validates a move according to game rules
+    /// - Remarks: **IMPLEMENTS** "Validate a human player's move"
+    ///
+    func validateMove(move: Move) -> Bool {
+        return true
+    }
 }

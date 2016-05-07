@@ -78,9 +78,20 @@ struct Game {
     var players = [Player]()
     
     ///
+    /// Rule validator
+    ///
+    let ruleValidator: ComputerPlayer
+
+    ///
+    /// The current player
+    ///
+    var currentPlayer: Player
+    
+    ///
     /// Initialiser for a new game
     ///
     private init() {
-
+        // Set up the rule validator
+        self.ruleValidator = PlayerFactory.playerOfType(.Computer) as! ComputerPlayer
     }
 }
