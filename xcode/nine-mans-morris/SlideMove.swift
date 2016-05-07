@@ -13,12 +13,20 @@
 ///
 class SlideMove: FlyMove {
     ///
-    /// Override for validate logic to check if we are moving the token adjacently
+    /// Returns `true` iff the token to be moved is being moved to an adjacent
+    /// position
     /// - Remarks: **IMPLEMENTS* "Check if a specific token can slide to an adjacent position"
+    ///
+    var movingToAdjacent: Bool {
+        return self.token?.position!.isAdjacentTo(self.position!) ?? false
+    }
+    
+    ///
+    /// Override for validate logic to check if we are moving the token adjacently
     ///
     override func validateLogic() -> Bool {
         // We call out super validate logic for our superclass Fly and make sure
         // that we are flying to an adjacent position
-        return super.validateLogic() && self.token?.position!.isAdjacentTo(self.position!) ?? false
+        return super.validateLogic() && self.movingToAdjacent
     }
 }

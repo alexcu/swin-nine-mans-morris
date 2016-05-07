@@ -49,10 +49,18 @@ class PlaceMove: Move {
     }
     
     ///
+    /// Returns `true` iff the current player owns the token to be moved
+    ///
+    var movingMyToken: Bool {
+        return self.token?.ownedBy(Game.sharedGame.currentPlayer) ?? false
+    }
+    
+    ///
     /// A token can logically always be placed
     ///
     func validateLogic() -> Bool {
-        return canPlaceAtPosition
+        // Can only move our tokens and place at the position
+        return canPlaceAtPosition && movingMyToken
     }
     
     ///
