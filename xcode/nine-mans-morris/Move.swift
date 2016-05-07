@@ -7,6 +7,22 @@
 //
 
 ///
+/// Enum representing all possible errors
+///
+enum MoveError: String, ErrorType {
+    case CannotPerformInInitial
+        = "This move cannot be performed in initial game state"
+    case CannotPerformInMidgame  = "This move cannot be performed in midgame state"
+    case CannotPerformInEndgame  = "This move cannot be performed in endgame state"
+    case NoMill                  = "Can only perform this mill if you have a mill"
+    case TakeOpponentsToken      = "Can only take an opponent's token"
+    case NoTokenAtPosition       = "No token at position specified"
+    case TokenAtPosition         = "There is already a token at position specified"
+    case NotMovingYourToken      = "Cannot perform this move to a token that isn't yours"
+    case CanOnlySlideToAdjacent  = "Can only slide a token to an adjacent position"
+}
+
+///
 /// Performs actions on a token to move that token around the 
 /// board in a certain way
 ///
@@ -22,7 +38,7 @@ protocol Move {
     /// - Return: Returns `true` iff the perform was successful
     /// - Remarks: **IMPLEMENTS** "Perform a move"
     ///
-    func perform() -> Bool
+    func perform() throws -> Bool
     
     ///
     /// Action this move and perform any changes that need to occur
@@ -40,16 +56,18 @@ protocol Move {
     /// Validate's the move according to its own logic
     /// - Return: Returns `true` iff the move was validated
     ///
-    func validateLogic() -> Bool
+    func validateLogic() throws -> Bool
 }
 
 
 extension Move {
     // Default implementation for perform
-    func perform() -> Bool {
+    func perform() throws -> Bool {
         // Validate according to ruleValidator and template function for validate
         // logic
-        if Game.sharedGame.ruleValidator.validateMove(self) && self.validateLogic() {
+        let validToRules = try Game.sharedGame.ruleValidator.validateMove(self)
+        let validToLogic = try self.validateLogic()
+        if validToRules && validToLogic {
             // Action the move according to template function
             self.action()
             return true

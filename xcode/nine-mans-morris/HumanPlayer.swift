@@ -37,9 +37,9 @@ class HumanPlayer: Player {
     /// Perform undo of move made by the player
     /// - Remarks: **IMPLEMENTS** "Undo last move made"
     ///
-    func undoLastMove() -> Bool {
+    func undoLastMove() throws -> Bool {
         if let lastMove = self.lastMove {
-            return lastMove.inverseMove.perform()
+            return try lastMove.inverseMove.perform()
         } else {
             return false
         }
@@ -48,8 +48,8 @@ class HumanPlayer: Player {
     ///
     /// Performs a move on the player
     ///
-    func performMove(move: Move) -> Bool {
-        if move.perform() {
+    func performMove(move: Move) throws -> Bool {
+        if try move.perform() {
             self.lastMove = move
             return true
         }

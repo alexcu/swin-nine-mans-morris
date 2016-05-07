@@ -50,13 +50,19 @@ struct TakeMove: Move {
     /// - Remarks: **IMPLEMENTS** "Check if specific position has a token that is not owned by current player"
     ///
     var isOpponentToken: Bool {
-        return self.token?.color != Game.sharedGame.currentPlayer.color
+        return (self.token?.ownedBy(Game.sharedGame.currentPlayer)) ?? false
     }
     
     ///
     /// Validates that token can be taken with regard to positional logic
     ///
-    func validateLogic() -> Bool {
-        return canTakeFromPosition && isOpponentToken
+    func validateLogic() throws -> Bool {
+        if !canTakeFromPosition {
+            throw MoveError.NoTokenAtPosition
+        }
+        if !isOpponentToken {
+            throw MoveError.TakeOpponentsToken
+        }
+        return true
     }
 }

@@ -90,7 +90,7 @@ protocol Player {
     ///
     /// Perform a move, return `true` if successful
     ///
-    mutating func performMove(move: Move) -> Bool
+    func performMove(move: Move) throws -> Bool
 }
 
 // MARK: Implement extensions to Player for default behaviour

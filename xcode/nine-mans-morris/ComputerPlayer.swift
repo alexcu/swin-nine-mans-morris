@@ -61,20 +61,32 @@ class ComputerPlayer: Player {
     /// Validates a move according to game rules
     /// - Remarks: **IMPLEMENTS** "Validate a human player's move"
     ///
-    func validateMove(move: Move) -> Bool {
+    func validateMove(move: Move) throws -> Bool {
         var isValidMove = false
         // Validate by game state
         switch Game.sharedGame.currentState {
         case .Initial:
             isValidMove = move is PlaceMove
+            if !isValidMove {
+                throw MoveError.CannotPerformInInitial
+            }
         case .Midgame:
             isValidMove = move is TakeMove || move is SlideMove
+            if !isValidMove {
+                throw MoveError.CannotPerformInMidgame
+            }
         case .Endgame:
             isValidMove = move is TakeMove || move is SlideMove || move is FlyMove
+            if !isValidMove {
+                throw MoveError.CannotPerformInEndgame
+            }
         }
         // If taking, we must check if we have a mill
         if move is TakeMove {
             isValidMove = isValidMove && Game.sharedGame.currentPlayer.hasMill
+            if !isValidMove {
+                throw MoveError.NoMill
+            }
         }
         return isValidMove
     }

@@ -169,11 +169,13 @@ class Game {
                     Console.sharedInstance.displayAlert("Invalid entry!")
                     return false
             }
-            if let move = move where !self.currentPlayer.performMove(move) {
-                Console.sharedInstance.displayAlert("Cannot perform that move!")
-                return false
-            } else {
+            do {
+                try self.currentPlayer.performMove(move!)
                 Console.sharedInstance.displayBoard()
+            } catch let error as MoveError {
+                Console.sharedInstance.displayAlert(error.rawValue)
+            } catch {
+                Console.sharedInstance.displayAlert("Unknown error!")
             }
             return true
         }

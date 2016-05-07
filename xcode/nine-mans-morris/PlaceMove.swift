@@ -58,9 +58,15 @@ class PlaceMove: Move {
     ///
     /// A token can logically always be placed
     ///
-    func validateLogic() -> Bool {
+    func validateLogic() throws -> Bool {
         // Can only move our tokens and place at the position
-        return canPlaceAtPosition && movingMyToken
+        if !canPlaceAtPosition {
+            throw MoveError.TokenAtPosition
+        }
+        if !movingMyToken {
+            throw MoveError.NotMovingYourToken
+        }
+        return true
     }
     
     ///
