@@ -118,6 +118,24 @@ class Game {
     }
     
     ///
+    /// Announce winner only announce if game is over
+    ///
+    func announceWinner() {
+        if self.isGameOver {
+            let loser = (self.ruleValidator.playerOutOfTokens ?? self.ruleValidator.playerOutOfMoves)!
+            let winner = self.playerWhoIsnt(loser)
+            Console.sharedInstance.displayAlert("\(winner.name) has won!")
+        }
+    }
+    
+    ///
+    /// Returns the player who isn't the player specified
+    ///
+    func playerWhoIsnt(player: Player) -> HumanPlayer {
+        return players.filter({$0.color != currentPlayer.color}).first! as! HumanPlayer
+    }
+    
+    ///
     /// Plays the game
     /// - Remarks: **IMPLEMENTS**: "Start game", "Announce a winner"
     ///
@@ -188,8 +206,10 @@ class Game {
             Console.sharedInstance.displayAlert("> [F]ly   token")
             Console.sharedInstance.displayAlert("> [T]ake  token")
             if handleInput(Console.sharedInstance.prompt("> [?]")) {
-                currentPlayer = players.filter({$0.color != currentPlayer.color}).first! as! HumanPlayer
+                self.currentPlayer = playerWhoIsnt(self.currentPlayer)
             }
         }
+        // Announce winner
+        announceWinner()
     }
 }
