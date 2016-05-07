@@ -61,7 +61,7 @@ class PlaceMove: Move {
     func validateLogic() throws -> Bool {
         // Can only move our tokens and place at the position
         if !canPlaceAtPosition {
-            throw MoveError.TokenAtPosition
+            throw MoveError.CannotActionTokenToPos
         }
         if !movingMyToken {
             throw MoveError.NotMovingYourToken

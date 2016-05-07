@@ -50,7 +50,8 @@ struct TakeMove: Move {
     /// - Remarks: **IMPLEMENTS** "Check if specific position has a token that is not owned by current player"
     ///
     var isOpponentToken: Bool {
-        return (self.token?.ownedBy(Game.sharedGame.currentPlayer)) ?? false
+        let ownedByMe = self.token?.ownedBy(Game.sharedGame.currentPlayer) ?? false
+        return !ownedByMe
     }
     
     ///

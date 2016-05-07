@@ -17,7 +17,7 @@ enum MoveError: String, ErrorType {
     case NoMill                  = "Can only perform this mill if you have a mill"
     case TakeOpponentsToken      = "Can only take an opponent's token"
     case NoTokenAtPosition       = "No token at position specified"
-    case TokenAtPosition         = "There is already a token at position specified"
+    case CannotActionTokenToPos  = "Cannot action token at position specified"
     case NotMovingYourToken      = "Cannot perform this move to a token that isn't yours"
     case CanOnlySlideToAdjacent  = "Can only slide a token to an adjacent position"
 }

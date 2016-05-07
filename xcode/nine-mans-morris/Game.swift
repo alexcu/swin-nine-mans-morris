@@ -174,8 +174,10 @@ class Game {
                 Console.sharedInstance.displayBoard()
             } catch let error as MoveError {
                 Console.sharedInstance.displayAlert(error.rawValue)
+                return false
             } catch {
                 Console.sharedInstance.displayAlert("Unknown error!")
+                return false
             }
             return true
         }
