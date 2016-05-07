@@ -17,19 +17,20 @@ class PlaceMove: Move {
     ///
     /// The token to place
     ///
-    var token: Token
+    var token: Token?
     
     ///
     /// The position to place at
     ///
-    var position: Position
+    var position: Position?
     
     ///
     /// Take the token
     /// - Remarks: **IMPLEMENT** Place a specific token at a new position
     ///
     func action() {
-        position.token = self.token
+        position?.token = self.token
+        self.token?.isPlaced = true // token is now placed
     }
     
     ///
@@ -44,7 +45,7 @@ class PlaceMove: Move {
     /// - Remarks: **IMPLEMENTS** Confirm if specific position has a token to place a new token at
     ///
     var canPlaceAtPosition: Bool {
-        return self.position.isFree
+        return self.position?.isFree ?? false
     }
     
     ///
@@ -57,7 +58,7 @@ class PlaceMove: Move {
     ///
     /// Initialiser for placing a token
     ///
-    init(token: Token, position: Position) {
+    init(token: Token?, position: Position?) {
         self.token = token
         self.position = position
     }

@@ -1,4 +1,4 @@
-//
+ //
 //  ComputerPlayer.swift
 //  nine-mans-morris
 //
@@ -9,7 +9,7 @@
 ///
 /// Representation of a computer player
 ///
-struct ComputerPlayer: Player {
+class ComputerPlayer: Player {
     // MARK: Implement Player protocol
     internal(set) var color: Token.Color?
     internal(set) var tokens = [Token]()
@@ -38,19 +38,19 @@ struct ComputerPlayer: Player {
     /// Checks if a player is all out of legal moves
     /// - Remarks: **IMPLEMENTS** "Check if there are no more legal moves left"
     ///
-    var noMoreLeftsForPlayer: Player? {
+    var playerOutOfMoves: Player? {
         for player in Game.sharedGame.players {
             // Only need to check humans
             if player is HumanPlayer {
                 var outOfMoves = true
                 for (pos, _) in player.tokensOnBoard {
-                    outOfMoves = !(pos.neighbors.top?.token?.ownedBy(player) ?? false) &&
-                                 !(pos.neighbors.right?.token?.ownedBy(player) ?? false) &&
-                                 !(pos.neighbors.bottom?.token?.ownedBy(player) ?? false) &&
-                                 !(pos.neighbors.left?.token?.ownedBy(player) ?? false)
-                    if outOfMoves == true {
-                        return player
-                    }
+                    outOfMoves = !(pos.neighbors.top?.token?.ownedBy(player) ?? true) &&
+                                 !(pos.neighbors.right?.token?.ownedBy(player) ?? true) &&
+                                 !(pos.neighbors.bottom?.token?.ownedBy(player) ?? true) &&
+                                 !(pos.neighbors.left?.token?.ownedBy(player) ?? true)
+                }
+                if outOfMoves {
+                    return player
                 }
             }
         }
@@ -62,6 +62,24 @@ struct ComputerPlayer: Player {
     /// - Remarks: **IMPLEMENTS** "Validate a human player's move"
     ///
     func validateMove(move: Move) -> Bool {
-        return true
+        var isValidMove = false
+        // Validate by game state
+        switch Game.sharedGame.currentState {
+        case .Initial:
+            isValidMove = move is PlaceMove
+        case .Midgame:
+            isValidMove = move is TakeMove || move is SlideMove
+        case .Endgame:
+            isValidMove = move is TakeMove || move is SlideMove || move is FlyMove
+        }
+        // If taking, we must check if we have a mill
+        if move is TakeMove {
+            isValidMove = isValidMove && Game.sharedGame.currentPlayer.hasMill
+        }
+        return isValidMove
+    }
+    
+    func performMove(move: Move) -> Bool {
+        fatalError("Computer player does not have AI to implement move")
     }
 }

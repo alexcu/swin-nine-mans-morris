@@ -16,7 +16,7 @@ class FlyMove: PlaceMove {
     /// - Remarks: **IMPLEMENTS** Remove token from its current position
     ///
     override func action() {
-        self.token.takeOffBoard() // first take the token off the board
+        self.token?.takeOffBoard() // first take the token off the board
         super.action() // then action it according to place
     }
 }

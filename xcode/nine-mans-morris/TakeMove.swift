@@ -16,21 +16,21 @@ struct TakeMove: Move {
     ///
     /// The token to take
     ///
-    internal(set) var token: Token
+    internal(set) var token: Token?
     
     ///
     /// Take the token
     /// - Remarks: **IMPLEMENTS** "Remove token from specific position"
     ///
     func action() {
-        token.takeOffBoard()
+        token?.takeOffBoard()
     }
 
     ///
     /// Returns an inverse take move that places the taken token onto the position
     ///
     var inverseMove: Move {
-        let pos = self.token.position!
+        let pos = self.token?.position!
         return PlaceMove(token: self.token, position: pos)
     }
     
@@ -39,7 +39,7 @@ struct TakeMove: Move {
     /// - Remarks: **IMPLEMENTS** "Check if a specific position has a token to take a token from"
     ///
     var canTakeFromPosition: Bool {
-        guard let pos = self.token.position else {
+        guard let pos = self.token?.position else {
             return false
         }
         return !pos.isFree
@@ -50,7 +50,7 @@ struct TakeMove: Move {
     /// - Remarks: **IMPLEMENTS** "Check if specific position has a token that is not owned by current player"
     ///
     var isOpponentToken: Bool {
-        return (self.token.owningPlayer as! HumanPlayer).name == (Game.sharedGame.currentPlayer as! HumanPlayer).name
+        return self.token?.color != Game.sharedGame.currentPlayer.color
     }
     
     ///

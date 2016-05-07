@@ -9,7 +9,7 @@
 ///
 /// A board represents the game's board in a nine man's morris game
 ///
-struct Board {
+class Board {
     ///
     /// The size of the board (0-based)
     ///
@@ -31,29 +31,36 @@ struct Board {
     
     ///
     /// Returns `true` iff there is a position at the coordinates specified at
-    /// `x` and `y`
+    /// `row` and `col`
     ///
-    func validPosition(x x: Int, y: Int) -> Bool {
-        return self.positionBits[x]?.nthBit(y) == 1
+    func validPosition(row row: Int, col: Int) -> Bool {
+        return self.positionBits[row]?.nthBit(col) == 1
     }
     
     ///
     /// Finds the position on the board at the given coordinates
-    /// - Paramater x: The `x` coordinate of the position
-    /// - Paramater y: The `y` coordinate of the position
+    /// - Paramater row: The row number
+    /// - Paramater col: The column number
     /// - Remarks: **IMPLEMENTS** "Get positions"
     /// - Returns: The position at the coordinate or `nil` if the position was
     ///            invalid
     ///
-    func positionAt(x x:Int, y: Int) -> Position? {
+    func positionAt(row row:Int, col: Int) -> Position? {
         // Find iff the label specified is valid
-        if self.validPosition(x: x, y: y) {
+        if self.validPosition(row: row, col: col) {
             // Find the position in my positions whose label matches the x and y
             // coordinates specified
-            return self.positions.filter({$0.label == (x: x, y: y)}).first
+            return self.positions.filter({$0.label == (row,col)}).first
         } else {
             return nil
         }
+    }
+    
+    ///
+    /// Alias for `positionAt`
+    ///
+    subscript(label: Position.Label) -> Position? {
+        return self[label.row, label.col]
     }
     
     ///
@@ -63,15 +70,20 @@ struct Board {
     /// - Remarks: **IMPLEMENTS** "Locate a specific token's position"
     ///
     func findToken(token: Token) -> Position? {
-        return self.positions.filter({$0.hasToken(token)}).first
+        for pos in self.positions {
+            if pos.hasToken(token) {
+                return pos
+            }
+        }
+        return nil
     }
     
     ///
     /// Subscript function allows us to find the position at the given coordinates
     /// in a more convienent fashion
     ///
-    subscript(x: Int, y: Int) -> Position? {
-        return self.positionAt(x: x, y: y)
+    subscript(row: Int, col: Int) -> Position? {
+        return self.positionAt(row: row, col: col)
     }
     
     ///
@@ -79,8 +91,8 @@ struct Board {
     /// - Remarks: Where the position provided is invalid, default to `false`
     /// - Remarks: **IMPLEMENTS** "Check if specified position is free"
     ///
-    func isFreeAt(x x: Int, y: Int) -> Bool {
-        return self[x,y]?.isFree ?? false
+    func isFreeAt(row row: Int, col: Int) -> Bool {
+        return self[row,col]?.isFree ?? false
     }
     
     ///
@@ -128,9 +140,9 @@ struct Board {
             
             for row in rows {
                 for col in cols {
-                    if self.validPosition(x: row, y: col) {
+                    if self.validPosition(row: row, col: col) {
                         // Create the new position
-                        let pos = Position(label: (x: row, y: col))
+                        let pos = Position(label: (row, col))
                         positions.append(pos)
                     }
                 }

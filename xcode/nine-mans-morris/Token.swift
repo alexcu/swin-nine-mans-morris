@@ -6,14 +6,17 @@
 //  Copyright © 2016 Alex. All rights reserved.
 //
 
+import Foundation
+
 ///
 /// Players pieces that represent each ‘men’ on the board
 ///
-struct Token: Hashable, Equatable {
+class Token: Hashable, Equatable {
     // MARK: Implement Hashable
-    var hashValue: Int {
-        return "\(self.position?.label.x ?? -1)\(self.position?.label.y ?? -1)\(self.owningPlayer.color)".hashValue
-    }
+    lazy var hashValue: Int = {
+        let uuid = NSUUID().UUIDString
+        return uuid.hashValue
+    }()
     
     ///
     /// An enum representing the different colors applicable to tokens
@@ -58,7 +61,7 @@ struct Token: Hashable, Equatable {
     ///                          "Remove a token from it's current position"
     ///
     func takeOffBoard() -> Bool {
-        guard var pos = Game.sharedGame.board.findToken(self) else {
+        guard let pos = Game.sharedGame.board.findToken(self) else {
             return false
         }
         return pos.removeToken()
@@ -69,7 +72,7 @@ struct Token: Hashable, Equatable {
     /// - Remarks: **IMPLEMENTS** "Check if a specific token is owned by a specific player"
     ///
     func ownedBy(player: Player) -> Bool {
-        return Game.sharedGame.players.contains({$0.tokens.contains(self)})
+        return player.color == self.color
     }
     
     ///
@@ -78,6 +81,11 @@ struct Token: Hashable, Equatable {
     var position: Position? {
         return Game.sharedGame.board.findToken(self)
     }
+    
+    ///
+    /// Returns whether or not the token has been placed (initially false)
+    ///
+    var isPlaced: Bool = false
     
     ///
     /// Returns the player who owns this token
@@ -93,22 +101,26 @@ struct Token: Hashable, Equatable {
     /// Returns `true` iff the token is part of a mill
     /// - Remarks: **IMPLEMENTS** "Check if a specific token forms part of a mill"
     ///
-    var partOfMill: Bool {
-        // Don't even bother if not on board
-        if !self.isOnBoard {
-            return false
-        }
-        let owningPlayer = self.owningPlayer
-        let pos = self.position!
-        
-        let leftOwned   = pos.neighbors.left?.token?.ownedBy(owningPlayer) ?? false
-        let rightOwned  = pos.neighbors.right?.token?.ownedBy(owningPlayer) ?? false
-        let topOwned    = pos.neighbors.top?.token?.ownedBy(owningPlayer) ?? false
-        let bottomOwned = pos.neighbors.bottom?.token?.ownedBy(owningPlayer) ?? false
-        
-        // Mill only owned if left and right neighbors or top and bottom
-        // neighbors are owned by this player
-        return (leftOwned && rightOwned) || (topOwned && bottomOwned)
+//    var partOfMill: Bool {
+//        // Don't even bother if not on board
+//        if !self.isOnBoard {
+//            return false
+//        }
+//        let owningPlayer = self.owningPlayer
+//        let pos = self.position!
+//        
+//        let leftOwned   = pos.neighbors.left?.token?.ownedBy(owningPlayer) ?? false
+//        let rightOwned  = pos.neighbors.right?.token?.ownedBy(owningPlayer) ?? false
+//        let topOwned    = pos.neighbors.top?.token?.ownedBy(owningPlayer) ?? false
+//        let bottomOwned = pos.neighbors.bottom?.token?.ownedBy(owningPlayer) ?? false
+//        
+//        // Mill only owned if left and right neighbors or top and bottom
+//        // neighbors are owned by this player
+//        return (leftOwned && rightOwned) || (topOwned && bottomOwned)
+//    }
+    
+    init(color: Color) {
+        self.color = color
     }
 }
 

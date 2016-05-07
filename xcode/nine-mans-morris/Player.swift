@@ -37,7 +37,7 @@ struct PlayerFactory {
             let color: Token.Color = isFirst == true ? .White : .Black
             var player: Player = HumanPlayer(name: name!)
             // Insert all the tokens for this player
-            for _ in 0...9 {
+            for _ in 1...9 {
                 player.tokens.append(Token(color: color))
             }
             player.color = color
@@ -81,6 +81,16 @@ protocol Player {
     /// Returns `true` iff the player has a mill
     ///
     var hasMill: Bool { get }
+    
+    ///
+    /// Returns `true` iff the player has placed all their tokens
+    ///
+    var hasPlacedAllTokens: Bool { get }
+    
+    ///
+    /// Perform a move, return `true` if successful
+    ///
+    mutating func performMove(move: Move) -> Bool
 }
 
 // MARK: Implement extensions to Player for default behaviour
@@ -88,16 +98,14 @@ protocol Player {
 extension Player {
     // Default implementation of tokensOnBoard
     var tokensOnBoard: [Position:Token] {
-        let result = [Position:Token]()
-        return self.tokens.reduce(result) { memo, token in
-            var memo = memo
+        var result = [Position:Token]()
+        for tok in self.tokens {
             // Find the position of this token, if not found continue to next token
-            guard let pos = Game.sharedGame.board.findToken(token) else {
-                return memo
+            if let pos = Game.sharedGame.board.findToken(tok) {
+                result.updateValue(tok, forKey: pos)
             }
-            memo.updateValue(token, forKey: pos)
-            return memo
         }
+        return result
     }
     
     // Default implementation of countOfTokensOnBoard
@@ -115,8 +123,20 @@ extension Player {
             
             // Mill only owned if left and right neighbors or top and bottom 
             // neighbors are owned by this player
-            return (leftOwned && rightOwned) || (topOwned && bottomOwned)
+            if (leftOwned && rightOwned) || (topOwned && bottomOwned) {
+                return true
+            }
         }
         return false
+    }
+    
+    // Default implementation of hasPlacedAllTokens
+    var hasPlacedAllTokens: Bool {
+        for tok in self.tokens {
+            if !tok.isPlaced {
+                return false
+            }
+        }
+        return true
     }
 }

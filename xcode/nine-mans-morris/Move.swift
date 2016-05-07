@@ -15,7 +15,7 @@ protocol Move {
     /// Token to move
     /// - Remarks: **IMPLEMENTS** "Get and set token from a move"
     ///
-    var token: Token { get set }
+    var token: Token? { get set }
     
     ///
     /// Perform's the operation of this move

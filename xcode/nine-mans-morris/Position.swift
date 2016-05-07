@@ -9,17 +9,16 @@
 ///
 /// A position represents an intersection on a nine man's morris board
 ///
-struct Position: Hashable {
+class Position: Hashable {
     // MARK: Implement Hashable
     var hashValue: Int {
-        return "\(self.label.x)\(self.label.y)".hashValue
+        return "\(self.label.row)\(self.label.col)".hashValue
     }
     
     ///
-    /// A label typealias is a simple alias to a tuple containing an X and Y
-    /// string coordinate
+    /// A label typealias is a simple alias to a tuple containing a row and column
     ///
-    typealias Label = (x: Int, y: Int)
+    typealias Label = (row: Int, col: Int)
 
     ///
     /// The label of the position
@@ -48,53 +47,27 @@ struct Position: Hashable {
     /// - Remarks: **IMPLEMENTS** "Get adjacent neighbours from a specific position"
     ///
     var neighbors: (top: Position?, right: Position?, bottom: Position?, left: Position?) {
-        let isLeftmost   = self.label.x == 0
-        let isRightmost  = self.label.x == Game.sharedGame.board.size
-        let isTopmost    = self.label.y == 0
-        let isBottommost = self.label.y == Game.sharedGame.board.size
+        let isLeftmost   = self.label.col == 0
+        let isRightmost  = self.label.col == Game.sharedGame.board.size
+        let isTopmost    = self.label.row == 0
+        let isBottommost = self.label.row == Game.sharedGame.board.size
         
         var result: (
-            left: Position?,
+            top: Position?,
             right: Position?,
             bottom: Position?,
-            top: Position?
+            left: Position?
         )
         
         func isBeyondCentre(val: Int) -> Bool {
-            return val == 3 && self.label.x == 3 && self.label.y == 3
+            return val == 3 && self.label.row == 3 && self.label.col == 3
         }
         
-        if !isLeftmost {
-            var i = self.label.x - 1
-            // Scan the board to find the leftmost neighbor
-            while i > 0 && result.left == nil {
-                let left = Game.sharedGame.board[i, self.label.y]
-                i -= 1
-                if isBeyondCentre(i) || left == self {
-                    break
-                } else {
-                    result.left = left
-                }
-            }
-        }
-        if !isRightmost {
-            var i = self.label.x + 1
-            // Scan the board to find the rightmost neighbor
-            while i < Game.sharedGame.board.size + 1 && result.right == nil {
-                let right = Game.sharedGame.board[i, self.label.y]
-                i -= 1
-                if isBeyondCentre(i) || right == self {
-                    break
-                } else {
-                    result.right = right
-                }
-            }
-        }
         if !isTopmost {
-            var i = self.label.y - 1
-            // Scan the board to find the topmost neighbor
-            while i > 0 && result.top == nil {
-                let top = Game.sharedGame.board[self.label.x, i]
+            var i = self.label.row - 1
+            // Scan the board to find the leftmost neighbor
+            while i >= 0 && result.top == nil {
+                let top = Game.sharedGame.board[i,self.label.col]
                 i -= 1
                 if isBeyondCentre(i) || top == self {
                     break
@@ -104,15 +77,41 @@ struct Position: Hashable {
             }
         }
         if !isBottommost {
-            var i = self.label.y + 1
+            var i = self.label.row + 1
             // Scan the board to find the rightmost neighbor
-            while i < Game.sharedGame.board.size + 1 && result.bottom == nil {
-                let bottom = Game.sharedGame.board[self.label.x, i]
-                i -= 1
+            while i <= Game.sharedGame.board.size && result.bottom == nil {
+                let bottom = Game.sharedGame.board[i,self.label.col]
+                i += 1
                 if isBeyondCentre(i) || bottom == self {
                     break
                 } else {
                     result.bottom = bottom
+                }
+            }
+        }
+        if !isLeftmost {
+            var i = self.label.col - 1
+            // Scan the board to find the topmost neighbor
+            while i >= 0 && result.left == nil {
+                let left = Game.sharedGame.board[self.label.row, i]
+                i -= 1
+                if isBeyondCentre(i) || left == self {
+                    break
+                } else {
+                    result.left = left
+                }
+            }
+        }
+        if !isRightmost {
+            var i = self.label.col + 1
+            // Scan the board to find the rightmost neighbor
+            while i <= Game.sharedGame.board.size && result.right == nil {
+                let right = Game.sharedGame.board[self.label.row,i]
+                i += 1
+                if isBeyondCentre(i) || right == self {
+                    break
+                } else {
+                    result.right = right
                 }
             }
         }
@@ -142,7 +141,7 @@ struct Position: Hashable {
     /// - Returns: `true` iff the token was removed, `false` if position was free
     /// - Remarks: **IMPLEMENTS** "Remove a token off a position"
     ///
-    mutating func removeToken() -> Bool {
+    func removeToken() -> Bool {
         if self.isFree {
             return false
         } else {

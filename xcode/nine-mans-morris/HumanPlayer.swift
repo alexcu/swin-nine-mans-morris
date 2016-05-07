@@ -10,11 +10,11 @@
 /// A player controlled by a human that is interacting with the game.
 /// Also interacts with human via HIDs
 ///
-struct HumanPlayer: Player {
+class HumanPlayer: Player {
     // MARK: Implement Player protocol
     internal(set) var color: Token.Color?
     internal(set) var tokens = [Token]()
-
+    
     ///
     /// Name of the player
     ///
@@ -28,50 +28,31 @@ struct HumanPlayer: Player {
     }
     
     ///
-    /// Writes to the console without a newline
+    /// Last move made by the player
+    /// - Remarks: **IMPLEMENTS** "Get, set and clear the last move that was made"
     ///
-    private func write(string: String) {
-        print(string, separator: "", terminator: "")
-    }
+    var lastMove: Move?
     
     ///
-    /// Displays an alert to the user
-    /// - Remarks: **IMPLEMENTS** "Show alerts to the user"
+    /// Perform undo of move made by the player
+    /// - Remarks: **IMPLEMENTS** "Undo last move made"
     ///
-    func displayAlert(message: String) {
-        print(message)
-    }
-    
-    ///
-    /// Gets input from the user with the given question prompted
-    /// - Remarks: **IMPLEMENTS** "Recieve input from the user"
-    ///
-    func prompt(message: String) -> String? {
-        write("\(message): ")
-        return readLine()
-    }
-    
-    ///
-    /// Displays the board to the human
-    /// - Remarks: **IMPLEMENTS** "Show the board to user"
-    ///
-    func displayBoard() {
-        let size = Game.sharedGame.board.size
-        
-        write(" x,y ")
-        for x in 0...size {
-            write(" \(x) ")
+    func undoLastMove() -> Bool {
+        if let lastMove = self.lastMove {
+            return lastMove.inverseMove.perform()
+        } else {
+            return false
         }
-        print()
-        
-        for x in 0...size {
-            write(" \(x) ")
-            for y in 0...size {
-                let pos = Game.sharedGame.board[x,y]
-                let posStr = pos == nil ? "---" : "[\(pos?.token?.color.description ?? " ")]"
-                write(posStr)
-            }
-            print()
+    }
+    
+    ///
+    /// Performs a move on the player
+    ///
+    func performMove(move: Move) -> Bool {
+        if move.perform() {
+            self.lastMove = move
+            return true
         }
+        return false
     }
 }
