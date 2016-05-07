@@ -7,7 +7,8 @@
 //
 
 ///
-/// Representation of a human player
+/// A player controlled by a human that is interacting with the game.
+/// Also interacts with human via HIDs
 ///
 struct HumanPlayer: Player {
     // MARK: Implement Player protocol
@@ -27,13 +28,34 @@ struct HumanPlayer: Player {
     }
     
     ///
+    /// Writes to the console without a newline
+    ///
+    private func write(string: String) {
+        print(string, separator: "", terminator: "")
+    }
+    
+    ///
+    /// Displays an alert to the user
+    /// - Remarks: **IMPLEMENTS** "Show alerts to the user"
+    ///
+    func displayAlert(message: String) {
+        print(message)
+    }
+    
+    ///
+    /// Gets input from the user with the given question prompted
+    /// - Remarks: **IMPLEMENTS** "Recieve input from the user"
+    ///
+    func prompt(message: String) -> String? {
+        write("\(message): ")
+        return readLine()
+    }
+    
+    ///
     /// Displays the board to the human
+    /// - Remarks: **IMPLEMENTS** "Show the board to user"
     ///
     func displayBoard() {
-        func write(string: String) {
-            print(string, separator: "", terminator: "")
-        }
-        
         let size = Game.sharedGame.board.size
         
         write(" x,y ")
