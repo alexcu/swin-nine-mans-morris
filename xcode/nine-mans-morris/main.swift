@@ -5,6 +5,3 @@
 //  Created by Alex on 6/05/2016.
 //  Copyright © 2016 Alex. All rights reserved.
 //
-
-print("Hello, World!")
-

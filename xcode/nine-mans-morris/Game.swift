@@ -9,7 +9,17 @@
 ///
 /// The game class is responsible for all initialisation and overall control of
 /// the game
-class Game {
+struct Game {
+    ///
+    /// The singleton game instance
+    ///
+    static let sharedGame = Game()
+    
+    ///
+    /// Reference to the game's board
+    ///
+    let board = Board()
+    
     ///
     /// The game state enum declares the three possible types of game state that
     /// can exist in a game of Nine Man's Morris
@@ -58,14 +68,19 @@ class Game {
         } else if rule3 {
             return .Endgame
         } else {
-            fatalError("Current game state could not be determined!")
+            assertionFailure("Current game state could not be determined!")
         }
     }
     
     ///
+    /// Players playing the game
+    ///
+    var players = [Player]()
+    
+    ///
     /// Initialiser for a new game
     ///
-    init() {
+    private init() {
 
     }
 }

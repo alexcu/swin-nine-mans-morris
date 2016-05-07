@@ -11,6 +11,11 @@
 		FA7214161CDC0E6700ADD604 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7214151CDC0E6700ADD604 /* Game.swift */; };
 		FA7214181CDC114E00ADD604 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7214171CDC114E00ADD604 /* Position.swift */; };
 		FA72141A1CDC120500ADD604 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7214191CDC120500ADD604 /* Board.swift */; };
+		FA8C698E1CDD5CD00001CD48 /* Int+nthBit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C698D1CDD5CD00001CD48 /* Int+nthBit.swift */; };
+		FA8C69901CDD67F50001CD48 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C698F1CDD67F50001CD48 /* Token.swift */; };
+		FA8C69921CDD6CA40001CD48 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C69911CDD6CA40001CD48 /* Player.swift */; };
+		FA8C69941CDD746E0001CD48 /* HumanPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C69931CDD746E0001CD48 /* HumanPlayer.swift */; };
+		FA8C69961CDD74730001CD48 /* ComputerPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C69951CDD74730001CD48 /* ComputerPlayer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +36,11 @@
 		FA7214151CDC0E6700ADD604 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		FA7214171CDC114E00ADD604 /* Position.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
 		FA7214191CDC120500ADD604 /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
+		FA8C698D1CDD5CD00001CD48 /* Int+nthBit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+nthBit.swift"; sourceTree = "<group>"; };
+		FA8C698F1CDD67F50001CD48 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		FA8C69911CDD6CA40001CD48 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		FA8C69931CDD746E0001CD48 /* HumanPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HumanPlayer.swift; sourceTree = "<group>"; };
+		FA8C69951CDD74730001CD48 /* ComputerPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComputerPlayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,10 +73,15 @@
 		FA72140D1CDC0E5300ADD604 /* nine-mans-morris */ = {
 			isa = PBXGroup;
 			children = (
+				FA8C69911CDD6CA40001CD48 /* Player.swift */,
+				FA8C69931CDD746E0001CD48 /* HumanPlayer.swift */,
+				FA8C69951CDD74730001CD48 /* ComputerPlayer.swift */,
+				FA8C698F1CDD67F50001CD48 /* Token.swift */,
 				FA7214191CDC120500ADD604 /* Board.swift */,
 				FA7214171CDC114E00ADD604 /* Position.swift */,
 				FA72140E1CDC0E5300ADD604 /* main.swift */,
 				FA7214151CDC0E6700ADD604 /* Game.swift */,
+				FA8C698D1CDD5CD00001CD48 /* Int+nthBit.swift */,
 			);
 			path = "nine-mans-morris";
 			sourceTree = "<group>";
@@ -129,7 +144,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA72140F1CDC0E5300ADD604 /* main.swift in Sources */,
+				FA8C69901CDD67F50001CD48 /* Token.swift in Sources */,
+				FA8C69961CDD74730001CD48 /* ComputerPlayer.swift in Sources */,
+				FA8C69941CDD746E0001CD48 /* HumanPlayer.swift in Sources */,
 				FA7214161CDC0E6700ADD604 /* Game.swift in Sources */,
+				FA8C698E1CDD5CD00001CD48 /* Int+nthBit.swift in Sources */,
+				FA8C69921CDD6CA40001CD48 /* Player.swift in Sources */,
 				FA72141A1CDC120500ADD604 /* Board.swift in Sources */,
 				FA7214181CDC114E00ADD604 /* Position.swift in Sources */,
 			);
@@ -253,6 +273,7 @@
 				FA7214141CDC0E5300ADD604 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
