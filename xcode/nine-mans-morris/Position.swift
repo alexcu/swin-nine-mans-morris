@@ -53,45 +53,71 @@ struct Position: Hashable {
         let isTopmost    = self.label.y == 0
         let isBottommost = self.label.y == Game.sharedGame.board.size
         
-        var left: Position?
-        var right: Position?
-        var bottom: Position?
-        var top: Position?
+        var result: (
+            left: Position?,
+            right: Position?,
+            bottom: Position?,
+            top: Position?
+        )
+        
+        func isBeyondCentre(val: Int) -> Bool {
+            return val == 3 && self.label.x == 3 && self.label.y == 3
+        }
         
         if !isLeftmost {
             var i = self.label.x - 1
             // Scan the board to find the leftmost neighbor
-            while i > 0 && left != nil {
-                left = Game.sharedGame.board[i, self.label.y]
+            while i > 0 && result.left == nil {
+                let left = Game.sharedGame.board[i, self.label.y]
                 i -= 1
+                if isBeyondCentre(i) || left == self {
+                    break
+                } else {
+                    result.left = left
+                }
             }
         }
         if !isRightmost {
             var i = self.label.x + 1
             // Scan the board to find the rightmost neighbor
-            while i < Game.sharedGame.board.size + 1 && right != nil {
-                right = Game.sharedGame.board[i, self.label.y]
+            while i < Game.sharedGame.board.size + 1 && result.right == nil {
+                let right = Game.sharedGame.board[i, self.label.y]
                 i -= 1
+                if isBeyondCentre(i) || right == self {
+                    break
+                } else {
+                    result.right = right
+                }
             }
         }
         if !isTopmost {
             var i = self.label.y - 1
             // Scan the board to find the topmost neighbor
-            while i > 0 && top != nil {
-                top = Game.sharedGame.board[self.label.x, i]
+            while i > 0 && result.top == nil {
+                let top = Game.sharedGame.board[self.label.x, i]
                 i -= 1
+                if isBeyondCentre(i) || top == self {
+                    break
+                } else {
+                    result.top = top
+                }
             }
         }
         if !isBottommost {
             var i = self.label.y + 1
             // Scan the board to find the rightmost neighbor
-            while i < Game.sharedGame.board.size + 1 && bottom != nil {
-                bottom = Game.sharedGame.board[self.label.x, i]
+            while i < Game.sharedGame.board.size + 1 && result.bottom == nil {
+                let bottom = Game.sharedGame.board[self.label.x, i]
                 i -= 1
+                if isBeyondCentre(i) || bottom == self {
+                    break
+                } else {
+                    result.bottom = bottom
+                }
             }
         }
         
-        return (top, right, bottom, left)
+        return result
     }
     
     ///

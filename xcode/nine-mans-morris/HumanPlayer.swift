@@ -25,4 +25,31 @@ struct HumanPlayer: Player {
     internal init(name: String) {
         self.name = name
     }
+    
+    ///
+    /// Displays the board to the human
+    ///
+    func displayBoard() {
+        func write(string: String) {
+            print(string, separator: "", terminator: "")
+        }
+        
+        let size = Game.sharedGame.board.size
+        
+        write(" x,y ")
+        for x in 0...size {
+            write(" \(x) ")
+        }
+        print()
+        
+        for x in 0...size {
+            write(" \(x) ")
+            for y in 0...size {
+                let pos = Game.sharedGame.board[x,y]
+                let posStr = pos == nil ? "---" : "[\(pos?.token?.color.description ?? " ")]"
+                write(posStr)
+            }
+            print()
+        }
+    }
 }

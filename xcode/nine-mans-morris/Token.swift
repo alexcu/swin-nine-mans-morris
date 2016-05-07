@@ -18,8 +18,17 @@ struct Token: Hashable, Equatable {
     ///
     /// An enum representing the different colors applicable to tokens
     ///
-    enum Color {
+    enum Color: CustomStringConvertible {
         case Black, White
+        // MARK: Implement CustomStringConvertible
+        var description: String {
+            switch self {
+            case .Black:
+                return "●"
+            case .White:
+                return "○"
+            }
+        }
     }
     
     ///
