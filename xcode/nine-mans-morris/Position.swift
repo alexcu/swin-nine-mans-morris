@@ -47,7 +47,13 @@ class Position: Hashable {
     /// - Remarks: **IMPLEMENTS** "Get and set a specific position's token"
     ///            This is a `var` property; it synthesises a getter and setter
     ///
-    var token: Token?
+    var token: Token? {
+        willSet {
+            if self.isOccupied && newValue != nil {
+                fatalError("Cannot place a token at an already-occupied position")
+            }
+        }
+    }
 
     ///
     /// The neighbors of this position

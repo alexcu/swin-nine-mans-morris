@@ -19,26 +19,30 @@ struct TakeMove: Move {
     internal(set) var token: Token?
     
     ///
+    /// The original position of the token
+    ///
+    private let position: Position?
+    
+    ///
     /// Take the token
     /// - Remarks: **IMPLEMENTS** "Remove token from specific position"
     ///
-    func action() {
+    internal func action() {
         token?.takeOffBoard()
     }
 
     ///
     /// Returns an inverse take move that places the taken token onto the position
     ///
-    var inverseMove: Move {
-        let pos = self.token?.position!
-        return PlaceMove(token: self.token, position: pos)
+    internal func undo() {
+        position?.token = token
     }
     
     ///
     /// Returns `true` iff the specific position has a token
     /// - Remarks: **IMPLEMENTS** "Check if a specific position has a token to take a token from"
     ///
-    var canTakeFromPosition: Bool {
+    private var canTakeFromPosition: Bool {
         guard let pos = self.token?.position else {
             return false
         }
@@ -49,7 +53,7 @@ struct TakeMove: Move {
     /// Returns `true` iff the specific position to take from is an opponent token
     /// - Remarks: **IMPLEMENTS** "Check if specific position has a token that is not owned by current player"
     ///
-    var isOpponentToken: Bool {
+    private var isOpponentToken: Bool {
         let ownedByMe = self.token?.ownedBy(Game.sharedGame.currentPlayer) ?? false
         return !ownedByMe
     }
@@ -57,13 +61,22 @@ struct TakeMove: Move {
     ///
     /// Validates that token can be taken with regard to positional logic
     ///
-    func validateLogic() throws -> Bool {
-        if !canTakeFromPosition {
+    internal func validateLogic() throws -> Bool {
+        if !self.canTakeFromPosition {
             throw MoveError.NoTokenAtPosition
         }
-        if !isOpponentToken {
+        if !self.isOpponentToken {
             throw MoveError.TakeOpponentsToken
         }
         return true
+    }
+    
+    ///
+    /// Initialiser for the take token move
+    /// - Parameter token: The token to take
+    ///
+    init(token: Token?) {
+        self.token = token
+        self.position = self.token?.position
     }
 }

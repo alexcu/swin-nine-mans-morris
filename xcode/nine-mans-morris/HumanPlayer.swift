@@ -31,25 +31,33 @@ class HumanPlayer: Player {
     /// Last moves made by the player
     /// - Remarks: **IMPLEMENTS** "Get, set and clear the last move that was made"
     ///
-    var lastMoves: Stack<Move>?
+    var lastMoves: Stack<Move> = Stack<Move>()
     
     ///
     /// Perform undo of move made by the player
     /// - Remarks: **IMPLEMENTS** "Undo last move made"
     ///
-    func undoLastMove() throws -> Bool {
-        if let lastMove = self.lastMoves?.pop() {
+    func undoLastMove() -> Bool {
+        if let lastMove = self.lastMoves.pop() {
             // If the last move was a take move, we need to pop again to also undo
             // the move that allowed the token to be taken in the first place
-            var result = try lastMove.inverseMove.perform()
-            if let takeLastMove = self.lastMoves?.pop() where lastMove is TakeMove {
-                result = try takeLastMove.inverseMove.perform() && result
+            lastMove.undo()
+            if lastMove is TakeMove {
+                self.lastMoves.pop()!.undo()
             }
-            return result
+            return true
         } else {
             return false
         }
     }
+    
+    ///
+    /// Checks if the player can undo the last turn
+    ///
+    var canUndoLastMove: Bool {
+        return !self.lastMoves.isEmpty
+    }
+    
     
     ///
     /// Performs a move on the player
@@ -57,7 +65,7 @@ class HumanPlayer: Player {
     func performMove(move: Move) throws -> Bool {
         if try move.perform() {
             // Set the player's last move to this
-            self.lastMoves?.push(move)
+            self.lastMoves.push(move)
             return true
         }
         return false

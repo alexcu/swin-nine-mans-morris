@@ -165,6 +165,8 @@ class Game {
     
     ///
     /// Tries to ask the player to perform a move
+    /// - Paramater move: The move to perform
+    /// - Returns: Whether or not the move was successfully carried out
     ///
     func tryPerformMove(move: Move) -> Bool {
         do {
@@ -178,6 +180,21 @@ class Game {
     }
     
     ///
+    /// Undoes the current player's turn, if possible
+    /// - Returns: `true` if last turn was undone, else `false`
+    ///
+    func undoLastMove() -> Bool {
+        if self.currentPlayer.canUndoLastMove {
+            // Undo the current opponent's last move in order to undo current
+            // players to get back to a state when the current player just
+            // performed their move
+            self.currentOpponent.undoLastMove()
+            return self.currentPlayer.undoLastMove()
+        }
+        return false
+    }
+    
+    ///
     /// Plays the game
     /// - Remarks: **IMPLEMENTS**: "Start game"
     ///
@@ -185,14 +202,13 @@ class Game {
         while !self.isGameOver {
             // Show board before each input
             output.showBoard(self.board)
-            
+
             // Read in the next move
             guard let move = input.handleInput(self) else {
-                output.showAlert("Invalid entry!")
                 continue
             }
-            // Try to perform the move, and if there's an error show the error
-            tryPerformMove(move)
+            
+            let success = tryPerformMove(move)
             
             // Can now take after performing this move?
             if ruleValidator.checkMoveForTake(move) {
@@ -203,7 +219,9 @@ class Game {
             }
         
             // If the move was successful, swap the player
-            self.proceedPlayer()
+            if success {
+                self.proceedPlayer()
+            }
         }
         // Announce winner
         announceWinner()

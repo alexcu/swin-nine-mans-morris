@@ -17,48 +17,49 @@ class PlaceMove: Move {
     ///
     /// The token to place
     ///
-    var token: Token?
+    internal(set) var token: Token?
     
     ///
     /// The position to place at
     ///
-    var position: Position?
+    private(set) var position: Position?
     
     ///
     /// Take the token
     /// - Remarks: **IMPLEMENT** Place a specific token at a new position
     ///
-    func action() {
-        position?.token = self.token
+    internal func action() {
+        self.position?.token = self.token
         self.token?.isPlaced = true // token is now placed
     }
     
     ///
     /// Returns an inverse take move that takes the taken token off the board
     ///
-    var inverseMove: Move {
-        return TakeMove(token: self.token)
+    internal func undo() {
+        self.token?.takeOffBoard()
+        self.token?.isPlaced = false // undo the token being placed
     }
     
     ///
     /// Returns `true` iff the position doesn't contain a token
     /// - Remarks: **IMPLEMENTS** Confirm if specific position has a token to place a new token at
     ///
-    var canPlaceAtPosition: Bool {
+    private var canPlaceAtPosition: Bool {
         return self.position?.isFree ?? false
     }
     
     ///
     /// Returns `true` iff the current player owns the token to be moved
     ///
-    var movingMyToken: Bool {
+    private var movingMyToken: Bool {
         return self.token?.ownedBy(Game.sharedGame.currentPlayer) ?? false
     }
     
     ///
     /// A token can logically always be placed
     ///
-    func validateLogic() throws -> Bool {
+    internal func validateLogic() throws -> Bool {
         // Can only move our tokens and place at the position
         if !canPlaceAtPosition {
             throw MoveError.CannotActionTokenToPos

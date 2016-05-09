@@ -53,10 +53,9 @@ protocol Move {
     
     ///
     /// Perform's the reverse operation of this move
-    /// - Return: Returns a new move that represents the reversal move
     /// - Remarks: **IMPLEMENTS** "Reverse move"
     ///
-    var inverseMove: Move { get }
+    func undo()
 
     ///
     /// Validate's the move according to its own logic

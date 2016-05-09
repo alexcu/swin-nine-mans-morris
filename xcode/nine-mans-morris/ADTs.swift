@@ -42,7 +42,7 @@ struct Stack<T> {
     /// Pop the topmost element off the top of the stack
     /// - Returns: The element that was removed
     ///
-    mutating func pop() -> T {
-        return elements.removeLast()
+    mutating func pop() -> T? {
+        return elements.popLast()
     }
 }

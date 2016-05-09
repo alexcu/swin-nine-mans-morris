@@ -122,6 +122,7 @@ class Console: OutputWriter, InputReader {
             self.showAlert("> [P]lace token")
             self.showAlert("> [S]lide token")
             self.showAlert("> [F]ly   token")
+            self.showAlert("> [U]ndo"       )
         }
         ///
         /// Reads in a character from the user to handle the menu
@@ -131,7 +132,16 @@ class Console: OutputWriter, InputReader {
             case "p": return self.readPlaceMove(game)
             case "s": return self.readSlideMove(game)
             case "f": return self.readFlyMove(game)
-            default:  return nil
+            case "u":
+                if game.undoLastMove() {
+                    self.showAlert("Undone last turn")
+                } else {
+                    self.showAlert("Can't undo last turn!")
+                }
+                return nil
+            default:
+                self.showAlert("Invalid input!")
+                return nil
             }
         }
         

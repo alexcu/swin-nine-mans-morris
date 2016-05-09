@@ -17,14 +17,14 @@ class SlideMove: FlyMove {
     /// position
     /// - Remarks: **IMPLEMENTS* "Check if a specific token can slide to an adjacent position"
     ///
-    var movingToAdjacent: Bool {
+    private var movingToAdjacent: Bool {
         return self.token?.position!.isAdjacentTo(self.position!) ?? false
     }
     
     ///
     /// Override for validate logic to check if we are moving the token adjacently
     ///
-    override func validateLogic() throws -> Bool {
+    override internal func validateLogic() throws -> Bool {
         // We call out super validate logic for our superclass Fly and make sure
         // that we are flying to an adjacent position
         let superOk = try super.validateLogic()
