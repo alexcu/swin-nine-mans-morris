@@ -21,6 +21,7 @@ enum MoveError: String, ErrorType, CustomStringConvertible {
     case NotMovingYourToken      = "Cannot perform this move to a token that isn't yours"
     case CanOnlySlideToAdjacent  = "Can only slide a token to an adjacent position"
     case MustHaveThreeTokens     = "Can only fly a token if you have three tokens left"
+    case MustTakeMill            = "Your opponent has a mill which you must destroy first"
     
     var description: String {
         return self.rawValue

@@ -114,37 +114,48 @@ class Token: Hashable, Equatable {
     }
     
     ///
-    /// Returns `true` iff the token is surrounded by opponent tokens
-    ///
-    var isSurroundedByOpponents: Bool {
-        return self.isSurrounded &&
-            self.position?.neighbors.top?.token?.color != self.color    &&
-            self.position?.neighbors.right?.token?.color != self.color  &&
-            self.position?.neighbors.bottom?.token?.color != self.color &&
-            self.position?.neighbors.left?.token?.color != self.color
-    }
-    
-    ///
     /// Returns `true` iff the token is part of a mill
     /// - Remarks: **IMPLEMENTS** "Check if a specific token forms part of a mill"
     ///
-//    var partOfMill: Bool {
-//        // Don't even bother if not on board
-//        if !self.isOnBoard {
-//            return false
-//        }
-//        let owningPlayer = self.owningPlayer
-//        let pos = self.position!
-//        
-//        let leftOwned   = pos.neighbors.left?.token?.ownedBy(owningPlayer) ?? false
-//        let rightOwned  = pos.neighbors.right?.token?.ownedBy(owningPlayer) ?? false
-//        let topOwned    = pos.neighbors.top?.token?.ownedBy(owningPlayer) ?? false
-//        let bottomOwned = pos.neighbors.bottom?.token?.ownedBy(owningPlayer) ?? false
-//        
-//        // Mill only owned if left and right neighbors or top and bottom
-//        // neighbors are owned by this player
-//        return (leftOwned && rightOwned) || (topOwned && bottomOwned)
-//    }
+    var isPartOfMill: Bool {
+        // Don't even bother if not on board
+        if !self.isOnBoard {
+            return false
+        }
+        
+        // Get the owning player of the token
+        let owningPlayer = self.owningPlayer
+        
+        // An annoynmous enum for direction, only ever used in this function
+        enum Direction {
+            case Top, Right, Bottom, Left
+            // Return the neighbor of the token provided in this direction
+            func neighbor(token: Token) -> Position? {
+                switch self {
+                case .Top:      return token.position!.neighbors.top
+                case .Right:    return token.position!.neighbors.right
+                case .Bottom:   return token.position!.neighbors.bottom
+                case .Left:     return token.position!.neighbors.left
+                }
+            }
+        }
+        
+        // Check the ownership of the direction provided for the token provided
+        func checkOwnershipInDirection(dir: Direction, _ tok: Token?) -> Bool {
+            guard let tok = tok else { return false }
+            let owned = tok.ownedBy(owningPlayer)
+            guard let neighbor = dir.neighbor(tok) else { return owned }
+            return owned && checkOwnershipInDirection(dir, neighbor.token)
+        }
+        
+        // Check vertically and horizontally
+        let ownedVertically   = checkOwnershipInDirection(.Bottom, self) && checkOwnershipInDirection(.Top, self)
+        let ownedHorizontally = checkOwnershipInDirection(.Left  , self) && checkOwnershipInDirection(.Right, self)
+        
+        // Mill only owned if left and right neighbors or top and bottom
+        // neighbors are owned by this player
+        return ownedVertically || ownedHorizontally
+    }
     
     init(color: Color) {
         self.color = color

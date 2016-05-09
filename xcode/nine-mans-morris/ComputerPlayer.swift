@@ -47,6 +47,17 @@ class ComputerPlayer: Player {
     }
     
     ///
+    /// Returns `true` iff the move provided allows a token to be taken after
+    /// it is performed
+    /// - Remarks: **CHANGE** Need a way to check if a move has formed a mill and
+    ///            if so take a token
+    ///
+    func checkMoveForTake(move: Move) -> Bool {
+        // If the move placed the token in a mill
+        return move.token?.isPartOfMill ?? false && move is PlaceMove
+    }
+    
+    ///
     /// Validates a move according to game rules
     /// - Remarks: **IMPLEMENTS** "Validate a human player's move"
     ///
@@ -55,7 +66,8 @@ class ComputerPlayer: Player {
         // Validate by game state
         switch Game.sharedGame.currentState {
         case .Initial:
-            isValidMove = move is PlaceMove
+            // Cannot be fly move or decendents at initial phase
+            isValidMove = move is TakeMove || move is PlaceMove && !(move is FlyMove)
             if !isValidMove {
                 throw MoveError.CannotPerformInInitial
             }
@@ -70,11 +82,20 @@ class ComputerPlayer: Player {
                 throw MoveError.CannotPerformInEndgame
             }
         }
-        // If taking, we must check if we have a mill
+        // If taking, we must check if we have a mill or take a mill token if opponent
+        // has a mill
         if move is TakeMove {
+            // Check if player has mill
             isValidMove = isValidMove && Game.sharedGame.currentPlayer.hasMill
             if !isValidMove {
                 throw MoveError.NoMill
+            }
+            // Check if oppenent has mill and taking from mill
+            if Game.sharedGame.currentOpponent.hasMill {
+                isValidMove = isValidMove && move.token?.isPartOfMill ?? false
+                if !isValidMove {
+                    throw MoveError.MustTakeMill
+                }
             }
         }
         // If flying, we must check if we have 3 tokens

@@ -148,13 +148,19 @@ class Game {
         return players.filter({$0.color != currentPlayer.color}).first!
     }
     
+    ///
+    /// Returns the current opponent
+    ///
+    var currentOpponent: HumanPlayer {
+        // Update the current player to the player who isn't the current player
+        return self.playerWhoIsnt(self.currentPlayer)
+    }
     
     ///
     /// Switches the current player to the next player
     ///
-    func nextPlayer() {
-        // Update the current player to the player who isn't the current player
-        self.currentPlayer = self.playerWhoIsnt(self.currentPlayer)
+    func proceedPlayer() {
+        self.currentPlayer = self.currentOpponent
     }
     
     ///
@@ -173,8 +179,14 @@ class Game {
             // Try to perform the move, and if there's an error show the error
             do {
                 try self.currentPlayer.performMove(move)
+                // Can now take?
+                if ruleValidator.checkMoveForTake(move) {
+                    output.showAlert("You formed a mill! You may now take an opponent's token!")
+                    let takeMove = input.readTakeMove(self)
+                    try self.currentPlayer.performMove(takeMove)
+                }
                 // If the move was successful, swap the player
-                self.nextPlayer()
+                self.proceedPlayer()
             } catch let error {
                 output.showAlert("Error! \(error)")
             }

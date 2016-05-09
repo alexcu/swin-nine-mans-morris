@@ -122,7 +122,6 @@ class Console: OutputWriter, InputReader {
             self.showAlert("> [P]lace token")
             self.showAlert("> [S]lide token")
             self.showAlert("> [F]ly   token")
-            self.showAlert("> [T]ake  token")
         }
         ///
         /// Reads in a character from the user to handle the menu
@@ -131,7 +130,6 @@ class Console: OutputWriter, InputReader {
             switch input {
             case "p": return self.readPlaceMove(game)
             case "s": return self.readSlideMove(game)
-            case "t": return self.readTakeMove(game)
             case "f": return self.readFlyMove(game)
             default:  return nil
             }
