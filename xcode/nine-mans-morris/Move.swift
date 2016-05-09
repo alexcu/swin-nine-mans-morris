@@ -9,7 +9,7 @@
 ///
 /// Enum representing all possible errors
 ///
-enum MoveError: String, ErrorType {
+enum MoveError: String, ErrorType, CustomStringConvertible {
     case CannotPerformInInitial
         = "This move cannot be performed in initial game state"
     case CannotPerformInMidgame  = "This move cannot be performed in midgame state"
@@ -20,6 +20,9 @@ enum MoveError: String, ErrorType {
     case CannotActionTokenToPos  = "Cannot action token at position specified"
     case NotMovingYourToken      = "Cannot perform this move to a token that isn't yours"
     case CanOnlySlideToAdjacent  = "Can only slide a token to an adjacent position"
+    var description: String {
+        return self.rawValue
+    }
 }
 
 ///

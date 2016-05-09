@@ -22,6 +22,7 @@
 		FA8C69A01CDDA4A50001CD48 /* FlyMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C699F1CDDA4A50001CD48 /* FlyMove.swift */; };
 		FA8C69A21CDDA5210001CD48 /* SlideMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C69A11CDDA5210001CD48 /* SlideMove.swift */; };
 		FA8C69A41CDDA6760001CD48 /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C69A31CDDA6760001CD48 /* Console.swift */; };
+		FAD6ECC21CE0041B00680CE6 /* InputOutputProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6ECC11CE0041B00680CE6 /* InputOutputProtocols.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -53,6 +54,7 @@
 		FA8C699F1CDDA4A50001CD48 /* FlyMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlyMove.swift; sourceTree = "<group>"; };
 		FA8C69A11CDDA5210001CD48 /* SlideMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideMove.swift; sourceTree = "<group>"; };
 		FA8C69A31CDDA6760001CD48 /* Console.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
+		FAD6ECC11CE0041B00680CE6 /* InputOutputProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputOutputProtocols.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 				FA7214171CDC114E00ADD604 /* Position.swift */,
 				FA72140E1CDC0E5300ADD604 /* main.swift */,
 				FA7214151CDC0E6700ADD604 /* Game.swift */,
+				FAD6ECC11CE0041B00680CE6 /* InputOutputProtocols.swift */,
 				FA8C69A31CDDA6760001CD48 /* Console.swift */,
 				FA8C698D1CDD5CD00001CD48 /* Int+nthBit.swift */,
 			);
@@ -171,6 +174,7 @@
 				FA7214161CDC0E6700ADD604 /* Game.swift in Sources */,
 				FA8C69A41CDDA6760001CD48 /* Console.swift in Sources */,
 				FA8C699C1CDDA0120001CD48 /* TakeMove.swift in Sources */,
+				FAD6ECC21CE0041B00680CE6 /* InputOutputProtocols.swift in Sources */,
 				FA8C698E1CDD5CD00001CD48 /* Int+nthBit.swift in Sources */,
 				FA8C69921CDD6CA40001CD48 /* Player.swift in Sources */,
 				FA72141A1CDC120500ADD604 /* Board.swift in Sources */,

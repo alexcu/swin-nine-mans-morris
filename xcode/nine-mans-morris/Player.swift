@@ -91,6 +91,11 @@ protocol Player {
     /// Perform a move, return `true` if successful
     ///
     func performMove(move: Move) throws -> Bool
+    
+    ///
+    /// Returns the tokens that have not yet been placed on the board
+    ///
+    var tokensNotInitiallyPlaced: [Token] { get }
 }
 
 // MARK: Implement extensions to Player for default behaviour
@@ -98,14 +103,19 @@ protocol Player {
 extension Player {
     // Default implementation of tokensOnBoard
     var tokensOnBoard: [Position:Token] {
-        var result = [Position:Token]()
-        for tok in self.tokens {
+        return self.tokens.reduce([Position:Token]()) { dict, tok in
+            var dict = dict
             // Find the position of this token, if not found continue to next token
             if let pos = Game.sharedGame.board.findToken(tok) {
-                result.updateValue(tok, forKey: pos)
+                dict.updateValue(tok, forKey: pos)
             }
+            return dict
         }
-        return result
+    }
+    
+    // Default implementation of tokensNotInitiallyPlaced
+    var tokensNotInitiallyPlaced: [Token] {
+        return self.tokens.filter({!$0.isPlaced})
     }
     
     // Default implementation of countOfTokensOnBoard
@@ -132,11 +142,6 @@ extension Player {
     
     // Default implementation of hasPlacedAllTokens
     var hasPlacedAllTokens: Bool {
-        for tok in self.tokens {
-            if !tok.isPlaced {
-                return false
-            }
-        }
-        return true
+        return self.tokensNotInitiallyPlaced.isEmpty
     }
 }

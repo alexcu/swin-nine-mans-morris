@@ -74,7 +74,7 @@ class Game {
     ///
     /// Players playing the game
     ///
-    private(set) var players = [Player]()
+    private(set) var players = [HumanPlayer]()
     
     ///
     /// Rule validator
@@ -89,24 +89,35 @@ class Game {
     var currentPlayer: HumanPlayer
     
     ///
+    /// Link to an input reader
+    ///
+    let input: InputReader = Console.sharedInstance
+    
+    ///
+    /// Link to an output writer
+    ///
+    let output: OutputWriter = Console.sharedInstance
+    
+    ///
     /// Initialiser for a new game
     ///
     private init() {
         // Set up the rule validator
         self.ruleValidator = PlayerFactory.playerOfType(.Computer) as! ComputerPlayer
-        Console.sharedInstance.displayAlert("Setting up game...")
-        let p1Name = Console.sharedInstance.prompt("Enter first player's name")
-        let p2Name = Console.sharedInstance.promptUntil("Enter second player's name") {
+        
+        output.showAlert("Setting up game...")
+        let p1Name = input.prompt("Enter first player's name")
+        let p2Name = input.promptUntil("Enter second player's name") {
             $0 != p1Name
         }
         
-        let p1 = PlayerFactory.playerOfType(.Human, name: p1Name, isFirst: true)
-        let p2 = PlayerFactory.playerOfType(.Human, name: p2Name, isFirst: false)
+        let p1 = PlayerFactory.playerOfType(.Human, name: p1Name, isFirst: true) as! HumanPlayer
+        let p2 = PlayerFactory.playerOfType(.Human, name: p2Name, isFirst: false) as! HumanPlayer
         
         self.players.append(p1)
         self.players.append(p2)
         
-        self.currentPlayer = p1 as! HumanPlayer
+        self.currentPlayer = p1
     }
     
     ///
@@ -119,12 +130,13 @@ class Game {
     
     ///
     /// Announce winner only announce if game is over
+    /// - Remarks: **IMPLEMENTS**: "Announce a winner"
     ///
     func announceWinner() {
         if self.isGameOver {
             let loser = (self.ruleValidator.playerOutOfTokens ?? self.ruleValidator.playerOutOfMoves)!
             let winner = self.playerWhoIsnt(loser)
-            Console.sharedInstance.displayAlert("\(winner.name) has won!")
+            output.showAlert("\(winner.name) has won!")
         }
     }
     
@@ -132,81 +144,38 @@ class Game {
     /// Returns the player who isn't the player specified
     ///
     func playerWhoIsnt(player: Player) -> HumanPlayer {
-        return players.filter({$0.color != currentPlayer.color}).first! as! HumanPlayer
+        return players.filter({$0.color != currentPlayer.color}).first!
+    }
+    
+    
+    ///
+    /// Switches the current player to the next player
+    ///
+    func nextPlayer() {
+        // Update the current player to the player who isn't the current player
+        self.currentPlayer = self.playerWhoIsnt(self.currentPlayer)
     }
     
     ///
     /// Plays the game
-    /// - Remarks: **IMPLEMENTS**: "Start game", "Announce a winner"
+    /// - Remarks: **IMPLEMENTS**: "Start game"
     ///
     func play() {
-        func readCoords(prompt: String) -> Position.Label {
-            Console.sharedInstance.displayAlert("> \(prompt)")
-            let row = Int(Console.sharedInstance.promptUntil("> Enter row") {
-                return Int($0) != nil
-                })!
-            let col = Int(Console.sharedInstance.promptUntil("> Enter col") {
-                return Int($0) != nil
-            })!
-            return (row,col)
-        }
-        func placeMove() -> PlaceMove {
-            let token = self.currentPlayer.tokens.filter({!$0.isPlaced}).first
-            let label = readCoords("Where would you like to place the token?")
-            return PlaceMove(token: token, position: self.board[label])
-        }
-        func slideMove() -> SlideMove {
-            let tolab = readCoords("Which token would you like to slide?")
-            let token = self.board[tolab]?.token
-            let label = readCoords("Where would you like to slide it?")
-            return SlideMove(token: token, position: self.board[label])
-        }
-        func flyMove() -> FlyMove {
-            let tolab = readCoords("Which token would you like to fly?")
-            let token = self.board[tolab]?.token
-            let label = readCoords("Where would you like to fly it?")
-            return FlyMove(token: token, position: self.board[label])
-        }
-        func takeMove() -> TakeMove {
-            let tolab = readCoords("Which token would you like to take?")
-            let token = self.board[tolab]?.token
-            return TakeMove(token: token)
-        }
-        func handleInput(input: String?) -> Bool {
-            Console.sharedInstance.displayBoard()
-            guard let input = input?.lowercaseString else {
-                return false
-            }
-            var move: Move? = nil
-            switch input {
-                case "p": move = placeMove()
-                case "s": move = slideMove()
-                case "t": move = takeMove()
-                case "f": move = flyMove()
-                default:
-                    Console.sharedInstance.displayAlert("Invalid entry!")
-                    return false
-            }
-            do {
-                try self.currentPlayer.performMove(move!)
-                Console.sharedInstance.displayBoard()
-            } catch let error as MoveError {
-                Console.sharedInstance.displayAlert(error.rawValue)
-                return false
-            } catch {
-                Console.sharedInstance.displayAlert("Unknown error!")
-                return false
-            }
-            return true
-        }
         while !self.isGameOver {
-            Console.sharedInstance.displayAlert("It's \(self.currentPlayer.name)'s (\(self.currentPlayer.color!)) turn!")
-            Console.sharedInstance.displayAlert("> [P]lace token")
-            Console.sharedInstance.displayAlert("> [S]lide token")
-            Console.sharedInstance.displayAlert("> [F]ly   token")
-            Console.sharedInstance.displayAlert("> [T]ake  token")
-            if handleInput(Console.sharedInstance.prompt("> [?]")) {
-                self.currentPlayer = playerWhoIsnt(self.currentPlayer)
+            // Show board before each input
+            output.showBoard(self.board)
+            // Read in the next move
+            guard let move = input.handleInput(self) else {
+                output.showAlert("Invalid entry!")
+                continue
+            }
+            // Try to perform the move, and if there's an error show the error
+            do {
+                try self.currentPlayer.performMove(move)
+                // If the move was successful, swap the player
+                self.nextPlayer()
+            } catch let error {
+                output.showAlert("Error! \(error)")
             }
         }
         // Announce winner

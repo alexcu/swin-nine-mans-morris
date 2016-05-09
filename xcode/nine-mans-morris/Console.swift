@@ -1,4 +1,4 @@
-//
+        //
 //  IO.swift
 //  nine-mans-morris
 //
@@ -12,9 +12,9 @@
 ///            HID class is needed since there is no way to communicate with the human
 ///            if there is no player class (i.e., need to enter the first name)
 ///
-struct Console {
+class Console: OutputWriter, InputReader {
     ///
-    /// Singleton for console
+    /// Shared singleton instance of the console
     ///
     static let sharedInstance = Console()
     
@@ -25,29 +25,16 @@ struct Console {
         print(string, separator: "", terminator: "")
     }
     
-    ///
-    /// Displays an alert to the user
-    /// - Remarks: **IMPLEMENTS** "Show alerts to the user"
-    ///
-    func displayAlert(message: String) {
+    // MARK: Implement OutputWriter protocol
+    
+    // Implementation of `OutputWriter.showAlert`
+    func showAlert(message: String) {
         print(message)
     }
     
-    ///
-    /// Gets input from the user with the given question prompted
-    /// - Remarks: **IMPLEMENTS** "Recieve input from the user"
-    ///
-    func prompt(message: String) -> String? {
-        write("\(message): ")
-        return readLine()
-    }
-    
-    ///
-    /// Displays the board to the human
-    /// - Remarks: **IMPLEMENTS** "Show the board to user"
-    ///
-    func displayBoard() {
-        let size = Game.sharedGame.board.size
+    // Implementation of `OutputWriter.showBoard`
+    func showBoard(board: Board) {
+        let size = board.size
         
         write("   ")
         for x in 0...size {
@@ -58,7 +45,7 @@ struct Console {
         for x in 0...size {
             write(" \(x) ")
             for y in 0...size {
-                let pos = Game.sharedGame.board[x,y]
+                let pos = board[x,y]
                 let posStr = pos == nil ? "---" : "[\(pos?.token?.color.description ?? " ")]"
                 write(posStr)
             }
@@ -66,14 +53,94 @@ struct Console {
         }
     }
     
-    ///
-    /// Keep prompting until condition provided is true
-    ///
+    // MARK: Implement InputReader protocol
+    
+    // Implementation of `InputReader.prompt`
+    func prompt(message: String) -> String? {
+        write("\(message): ")
+        return readLine()
+    }
+    
+    // Implementation of `InputReader.promptUntil`
     func promptUntil(message: String, condition: (String) -> Bool) -> String {
         var str = self.prompt(message)
         while !condition(str ?? "") {
             str = self.prompt(message)
         }
         return str!
+    }
+    
+    // Implements `InputReader.readCoords`
+    func readCoords(prompt: String) -> Position.Label {
+        self.showAlert("> \(prompt)")
+        let row = Int(Console.sharedInstance.promptUntil("> Enter row") {
+            return Int($0) != nil
+            })!
+        let col = Int(Console.sharedInstance.promptUntil("> Enter col") {
+            return Int($0) != nil
+            })!
+        return (row,col)
+    }
+    
+    // Implements `InputReader.readPlaceMove`
+    func readPlaceMove(game: Game) -> PlaceMove {
+        let token = game.currentPlayer.tokensNotInitiallyPlaced.first
+        let label = readCoords("Where would you like to place the token?")
+        return PlaceMove(token: token, position: game.board[label])
+    }
+    
+    // Implements `InputReader.readSlideMove`
+    func readSlideMove(game: Game) -> SlideMove {
+        let tolab = readCoords("Which token would you like to slide?")
+        let token = game.board[tolab]?.token
+        let label = readCoords("Where would you like to slide it?")
+        return SlideMove(token: token, position: game.board[label])
+    }
+    
+    // Implements `InputReader.readFlyMove`
+    func readFlyMove(game: Game) -> FlyMove {
+        let tolab = readCoords("Which token would you like to fly?")
+        let token = game.board[tolab]?.token
+        let label = readCoords("Where would you like to fly it?")
+        return FlyMove(token: token, position: game.board[label])
+    }
+    
+    // Implements `InputReader.readTakeMove`
+    func readTakeMove(game: Game) -> TakeMove {
+        let tolab = readCoords("Which token would you like to take?")
+        let token = game.board[tolab]?.token
+        return TakeMove(token: token)
+    }
+    
+    // Implements `InputReader.handleInput`
+    func handleInput(game: Game) -> Move? {
+        ///
+        /// Shows a menu
+        ///
+        func showMenu() {
+            self.showAlert("It's \(game.currentPlayer.name)'s (\(game.currentPlayer.color!)) turn!")
+            self.showAlert("> [P]lace token")
+            self.showAlert("> [S]lide token")
+            self.showAlert("> [F]ly   token")
+            self.showAlert("> [T]ake  token")
+        }
+        ///
+        /// Reads in a character from the user to handle the menu
+        ///
+        func readMenu(input: String) -> Move? {
+            switch input {
+            case "p": return self.readPlaceMove(game)
+            case "s": return self.readSlideMove(game)
+            case "t": return self.readTakeMove(game)
+            case "f": return self.readFlyMove(game)
+            default:  return nil
+            }
+        }
+        
+        showMenu()
+        guard let input = self.prompt("> [?]") else {
+            return nil
+        }
+        return readMenu(input.lowercaseString)
     }
 }

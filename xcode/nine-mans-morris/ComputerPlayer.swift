@@ -25,13 +25,10 @@ class ComputerPlayer: Player {
     /// - Remarks: **IMPLEMENTS** "Check if player has won"
     ///
     var playerOutOfTokens: Player? {
-        for player in Game.sharedGame.players {
-            // Only need to check humans
-            if player is HumanPlayer && player.countOfTokensOnBoard < 3 {
-                return player
-            }
+        guard let loser = Game.sharedGame.players.filter({$0.countOfTokensOnBoard < 3}).first else {
+            return nil
         }
-        return nil
+        return loser
     }
     
     ///
@@ -39,22 +36,19 @@ class ComputerPlayer: Player {
     /// - Remarks: **IMPLEMENTS** "Check if there are no more legal moves left"
     ///
     var playerOutOfMoves: Player? {
-        for player in Game.sharedGame.players {
-            // Only need to check humans
-            if player is HumanPlayer {
-                var outOfMoves = true
-                for (pos, _) in player.tokensOnBoard {
-                    outOfMoves = !(pos.neighbors.top?.token?.ownedBy(player) ?? true) &&
-                                 !(pos.neighbors.right?.token?.ownedBy(player) ?? true) &&
-                                 !(pos.neighbors.bottom?.token?.ownedBy(player) ?? true) &&
-                                 !(pos.neighbors.left?.token?.ownedBy(player) ?? true)
-                }
-                if outOfMoves {
-                    return player
-                }
+        guard let loser = Game.sharedGame.players.filter({ player in
+            var outOfMoves = true
+            for (pos, _) in player.tokensOnBoard {
+                outOfMoves = !(pos.neighbors.top?.token?.ownedBy(player) ?? true) &&
+                             !(pos.neighbors.right?.token?.ownedBy(player) ?? true) &&
+                             !(pos.neighbors.bottom?.token?.ownedBy(player) ?? true) &&
+                             !(pos.neighbors.left?.token?.ownedBy(player) ?? true)
             }
+            return outOfMoves
+        }).first else {
+            return nil
         }
-        return nil
+        return loser
     }
     
     ///
