@@ -12,10 +12,15 @@ import Foundation
 /// Players pieces that represent each ‘men’ on the board
 ///
 class Token: Hashable, Equatable {
+    ///
+    /// Unique identifier of each token
+    ///
+    private static var id = 0
+    
     // MARK: Implement Hashable
     lazy var hashValue: Int = {
-        let uuid = NSUUID().UUIDString
-        return uuid.hashValue
+        Token.id += 1
+        return Token.id
     }()
     
     ///
@@ -95,6 +100,28 @@ class Token: Hashable, Equatable {
             fatalError("Token must be owned by someone!")
         }
         return player
+    }
+    
+    ///
+    /// Returns `true` iff the token is surrounded by tokens
+    ///
+    var isSurrounded: Bool {
+        return
+            self.position?.neighbors.top?.isOccupied    ?? true &&
+            self.position?.neighbors.right?.isOccupied  ?? true &&
+            self.position?.neighbors.bottom?.isOccupied ?? true &&
+            self.position?.neighbors.left?.isOccupied   ?? true
+    }
+    
+    ///
+    /// Returns `true` iff the token is surrounded by opponent tokens
+    ///
+    var isSurroundedByOpponents: Bool {
+        return self.isSurrounded &&
+            self.position?.neighbors.top?.token?.color != self.color    &&
+            self.position?.neighbors.right?.token?.color != self.color  &&
+            self.position?.neighbors.bottom?.token?.color != self.color &&
+            self.position?.neighbors.left?.token?.color != self.color
     }
     
     ///

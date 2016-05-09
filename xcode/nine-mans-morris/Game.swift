@@ -134,9 +134,10 @@ class Game {
     ///
     func announceWinner() {
         if self.isGameOver {
-            let loser = (self.ruleValidator.playerOutOfTokens ?? self.ruleValidator.playerOutOfMoves)!
+            let loser = (self.ruleValidator.playerOutOfTokens ?? self.ruleValidator.playerOutOfMoves)! as! HumanPlayer
+            let reason = self.ruleValidator.playerOutOfTokens == nil ? "\(loser.name) out of legal moves" : "\(loser.name) out of tokens"
             let winner = self.playerWhoIsnt(loser)
-            output.showAlert("\(winner.name) has won!")
+            output.showAlert("\(winner.name) has won - \(reason)")
         }
     }
     

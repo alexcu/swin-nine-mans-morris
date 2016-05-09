@@ -70,12 +70,7 @@ class Board {
     /// - Remarks: **IMPLEMENTS** "Locate a specific token's position"
     ///
     func findToken(token: Token) -> Position? {
-        for pos in self.positions {
-            if pos.hasToken(token) {
-                return pos
-            }
-        }
-        return nil
+        return self.positions.filter({$0.hasToken(token)}).first
     }
     
     ///

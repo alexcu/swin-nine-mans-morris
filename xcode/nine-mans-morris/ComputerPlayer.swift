@@ -37,14 +37,9 @@ class ComputerPlayer: Player {
     ///
     var playerOutOfMoves: Player? {
         guard let loser = Game.sharedGame.players.filter({ player in
-            var outOfMoves = true
-            for (pos, _) in player.tokensOnBoard {
-                outOfMoves = !(pos.neighbors.top?.token?.ownedBy(player) ?? true) &&
-                             !(pos.neighbors.right?.token?.ownedBy(player) ?? true) &&
-                             !(pos.neighbors.bottom?.token?.ownedBy(player) ?? true) &&
-                             !(pos.neighbors.left?.token?.ownedBy(player) ?? true)
+            player.tokensOnBoard.values.reduce(true) { allSurrounded, token in
+                return allSurrounded && token.isSurrounded
             }
-            return outOfMoves
         }).first else {
             return nil
         }
@@ -80,6 +75,13 @@ class ComputerPlayer: Player {
             isValidMove = isValidMove && Game.sharedGame.currentPlayer.hasMill
             if !isValidMove {
                 throw MoveError.NoMill
+            }
+        }
+        // If flying, we must check if we have 3 tokens
+        if move is FlyMove && !(move is SlideMove) {
+            isValidMove = isValidMove && Game.sharedGame.currentPlayer.countOfTokensOnBoard == 3
+            if !isValidMove {
+                throw MoveError.MustHaveThreeTokens
             }
         }
         return isValidMove

@@ -34,6 +34,13 @@ class Position: Hashable {
     var isFree: Bool {
         return self.token == nil
     }
+    
+    ///
+    /// Returns `true` iff this position contains a `Token`
+    ///
+    var isOccupied: Bool {
+        return !self.isFree
+    }
 
     ///
     /// The token on this position
