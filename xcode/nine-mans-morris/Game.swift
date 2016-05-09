@@ -164,6 +164,20 @@ class Game {
     }
     
     ///
+    /// Tries to ask the player to perform a move
+    ///
+    func tryPerformMove(move: Move) -> Bool {
+        do {
+            try self.currentPlayer.performMove(move)
+            return true
+        }
+        catch let error {
+            output.showAlert("Error! \(error)")
+            return false
+        }
+    }
+    
+    ///
     /// Plays the game
     /// - Remarks: **IMPLEMENTS**: "Start game"
     ///
@@ -171,25 +185,25 @@ class Game {
         while !self.isGameOver {
             // Show board before each input
             output.showBoard(self.board)
+            
             // Read in the next move
             guard let move = input.handleInput(self) else {
                 output.showAlert("Invalid entry!")
                 continue
             }
             // Try to perform the move, and if there's an error show the error
-            do {
-                try self.currentPlayer.performMove(move)
-                // Can now take?
-                if ruleValidator.checkMoveForTake(move) {
+            tryPerformMove(move)
+            
+            // Can now take after performing this move?
+            if ruleValidator.checkMoveForTake(move) {
+                // Keep asking while the move was a success
+                repeat {
                     output.showAlert("You formed a mill! You may now take an opponent's token!")
-                    let takeMove = input.readTakeMove(self)
-                    try self.currentPlayer.performMove(takeMove)
-                }
-                // If the move was successful, swap the player
-                self.proceedPlayer()
-            } catch let error {
-                output.showAlert("Error! \(error)")
+                } while !tryPerformMove(input.readTakeMove(self))
             }
+        
+            // If the move was successful, swap the player
+            self.proceedPlayer()
         }
         // Announce winner
         announceWinner()
