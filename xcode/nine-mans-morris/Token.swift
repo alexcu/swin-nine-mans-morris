@@ -1,9 +1,9 @@
 //
-//  Token.swift
-//  nine-mans-morris
-//
-//  Created by Alex on 7/05/2016.
-//  Copyright © 2016 Alex. All rights reserved.
+//  Author:         Alex Cummaudo
+//  Student ID:     1744070
+//  Program:        A3 - Nine Man's Morris
+//  Unit:           SWE30003 - SAD
+//  Date:           7/05/2016
 //
 
 import Foundation
