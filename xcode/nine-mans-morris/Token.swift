@@ -140,15 +140,19 @@ class Token: Hashable, Equatable {
         
         // Check the ownership of the direction provided for the token provided
         func checkOwnershipInDirection(dir: Direction, _ tok: Token?) -> Bool {
-            guard let tok = tok else { return false }
+            return countOfOwnershipInDirerction(dir, tok) == 3
+        }
+        
+        func countOfOwnershipInDirerction(dir: Direction, _ tok: Token?, _ count: Int = 0) -> Int {
+            guard let tok = tok else { return count }
             let owned = tok.ownedBy(owningPlayer)
-            guard let neighbor = dir.neighbor(tok) else { return owned }
-            return owned && checkOwnershipInDirection(dir, neighbor.token)
+            guard let neighbor = dir.neighbor(tok) else { return count + (owned ? 1 : 0) }
+            return count + (owned ? 1 : 0) + countOfOwnershipInDirerction(dir, neighbor.token, count)
         }
         
         // Check vertically and horizontally
-        let ownedVertically   = checkOwnershipInDirection(.Bottom, self) && checkOwnershipInDirection(.Top, self)
-        let ownedHorizontally = checkOwnershipInDirection(.Left  , self) && checkOwnershipInDirection(.Right, self)
+        let ownedVertically   = checkOwnershipInDirection(.Bottom, self) || checkOwnershipInDirection(.Top, self)
+        let ownedHorizontally = checkOwnershipInDirection(.Left  , self) || checkOwnershipInDirection(.Right, self)
         
         // Mill only owned if left and right neighbors or top and bottom
         // neighbors are owned by this player
