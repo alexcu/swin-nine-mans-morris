@@ -6,8 +6,6 @@
 //  Date:           7/05/2016
 //
 
-import Foundation
-
 ///
 /// Players pieces that represent each ‘men’ on the board
 ///
