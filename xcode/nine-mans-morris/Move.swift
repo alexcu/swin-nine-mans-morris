@@ -59,18 +59,29 @@ protocol Move {
 
     ///
     /// Validate's the move according to its own logic
-    /// - Return: Returns `true` iff the move was validated
+    /// - Returns: Returns `true` iff the move was validated
     ///
     func validateLogic() throws -> Bool
+
+    ///
+    /// Validate the move according to the rules of the game
+    /// - Returns: Returns `true` iff the move can be validated according to game rules
+    /// - Remarks: **IMPLEMENTS** "Validate move can be made according to current rules"
+    ///
+    func validateRules() throws -> Bool
 }
 
 
 extension Move {
+    // Default implementation for validateRules
+    func validateRules() throws -> Bool {
+        return try Game.sharedGame.ruleValidator.validateMove(self)
+    }
     // Default implementation for perform
     func perform() throws -> Bool {
         // Validate according to ruleValidator and template function for validate
         // logic
-        let validToRules = try Game.sharedGame.ruleValidator.validateMove(self)
+        let validToRules = try self.validateRules()
         let validToLogic = try self.validateLogic()
         if validToRules && validToLogic {
             // Action the move according to template function

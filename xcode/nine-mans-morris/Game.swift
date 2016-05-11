@@ -17,9 +17,8 @@ class Game {
     
     ///
     /// Reference to the game's board
-    /// - Remarks: **IMPLEMENTS** "Set up board"
     ///
-    let board = Board()
+    let board: Board
     
     ///
     /// The game state enum declares the three possible types of game state that
@@ -72,21 +71,21 @@ class Game {
     }
     
     ///
-    /// Players playing the game
+    /// Players actively playing the game
     ///
-    private(set) var players = [HumanPlayer]()
+    private(set) var players = [Player]()
     
     ///
-    /// Rule validator
+    /// Rule validator is a passive computer player. The validator does not actually
+    /// play in the game but just mediates and checks rules.
     ///
     let ruleValidator: ComputerPlayer
 
     ///
     /// The current player
-    /// - Remarks: **IMPLEMENTS**: "Check if it is a specified player's turn" and
-    ///                            "Set and get the current player"
+    /// - Remarks: **IMPLEMENTS**: "Set and get the current player"
     ///
-    var currentPlayer: HumanPlayer
+    var currentPlayer: Player
     
     ///
     /// Link to an input reader
@@ -100,8 +99,12 @@ class Game {
     
     ///
     /// Initialiser for a new game
+    /// - Remarks: **IMPLEMENTS**: "Set up a new game", "Set up board"
     ///
     private init() {
+        // Set up the board
+        self.board = Board()
+
         // Set up the rule validator
         self.ruleValidator = PlayerFactory.playerOfType(.Computer) as! ComputerPlayer
         
@@ -144,20 +147,29 @@ class Game {
     ///
     /// Returns the player who isn't the player specified
     ///
-    func playerWhoIsnt(player: Player) -> HumanPlayer {
+    func playerWhoIsnt(player: Player) -> Player {
         return players.filter({$0.color != currentPlayer.color}).first!
     }
     
     ///
     /// Returns the current opponent
     ///
-    var currentOpponent: HumanPlayer {
+    var currentOpponent: Player {
         // Update the current player to the player who isn't the current player
         return self.playerWhoIsnt(self.currentPlayer)
     }
-    
+
+    ///
+    /// Returns `true` iff the provided player is the current player
+    /// - Remarks: **IMPLEMENTS** "Check if it is a specified player's turn"
+    ///
+    func isCurrentPlayer(player: Player) -> Bool {
+        return currentPlayer.color == player.color
+    }
+
     ///
     /// Switches the current player to the next player
+    /// - Remarks: Missing from original behaviours
     ///
     func proceedPlayer() {
         self.currentPlayer = self.currentOpponent
@@ -166,6 +178,7 @@ class Game {
     ///
     /// Tries to ask the player to perform a move
     /// - Paramater move: The move to perform
+    /// - Remarks: Missing from original behaviours
     /// - Returns: Whether or not the move was successfully carried out
     ///
     func tryPerformMove(move: Move) -> Bool {
@@ -182,13 +195,15 @@ class Game {
     ///
     /// Undoes the current player's turn, if possible
     /// - Returns: `true` if last turn was undone, else `false`
+    /// - Remarks: Missing from original behaviours
     ///
     func undoLastMove() -> Bool {
         if self.currentPlayer.canUndoLastMove {
             // Undo the current opponent's last move in order to undo current
             // players to get back to a state when the current player just
             // performed their move
-            self.currentOpponent.undoLastMove()
+            var currentOpponent = self.currentOpponent
+            currentOpponent.undoLastMove()
             return self.currentPlayer.undoLastMove()
         }
         return false

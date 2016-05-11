@@ -37,6 +37,7 @@ class Position: Hashable {
     
     ///
     /// Returns `true` iff this position contains a `Token`
+    /// - Remarks: Missing from original behaviours
     ///
     var isOccupied: Bool {
         return !self.isFree
@@ -165,6 +166,7 @@ class Position: Hashable {
     
     ///
     /// Checks if the specified position is adjacent to another position
+    /// - Remarks: Missing from original behaviours
     ///
     func isAdjacentTo(position: Position) -> Bool {
         return

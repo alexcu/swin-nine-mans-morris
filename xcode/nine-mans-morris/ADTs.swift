@@ -7,7 +7,7 @@
 //
 
 ///
-/// A stack
+/// A stack abstract data type
 ///
 struct Stack<T> {
     ///

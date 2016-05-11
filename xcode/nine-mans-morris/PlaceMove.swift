@@ -23,16 +23,23 @@ class PlaceMove: Move {
     /// The position to place at
     ///
     private(set) var position: Position?
-    
+
     ///
-    /// Take the token
-    /// - Remarks: **IMPLEMENT** Place a specific token at a new position
+    /// Actions the Place Move
     ///
     internal func action() {
+        self.placeTokenAtPosition()
+    }
+
+    ///
+    /// Places the token at the position
+    /// - Remarks: **IMPLEMENT** Place a specific token at a new position
+    ///
+    private func placeTokenAtPosition() {
         self.position?.token = self.token
         self.token?.isPlaced = true // token is now placed
     }
-    
+
     ///
     /// Returns an inverse take move that takes the taken token off the board
     ///

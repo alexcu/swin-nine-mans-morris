@@ -70,6 +70,67 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA2E0D841CE3E45B00C23797 /* Move */ = {
+			isa = PBXGroup;
+			children = (
+				FA8C69991CDD9CA50001CD48 /* Move.swift */,
+				FA8C69A11CDDA5210001CD48 /* SlideMove.swift */,
+				FA8C699F1CDDA4A50001CD48 /* FlyMove.swift */,
+				FA8C699D1CDDA2D10001CD48 /* PlaceMove.swift */,
+				FA8C699B1CDDA0120001CD48 /* TakeMove.swift */,
+			);
+			name = Move;
+			sourceTree = "<group>";
+		};
+		FA2E0D851CE3E46300C23797 /* Players */ = {
+			isa = PBXGroup;
+			children = (
+				FA8C69911CDD6CA40001CD48 /* Player.swift */,
+				FA8C69931CDD746E0001CD48 /* HumanPlayer.swift */,
+				FA8C69951CDD74730001CD48 /* ComputerPlayer.swift */,
+			);
+			name = Players;
+			sourceTree = "<group>";
+		};
+		FA2E0D861CE3E46900C23797 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				FA8C698D1CDD5CD00001CD48 /* Int+nthBit.swift */,
+				FAD6ECC31CE06A6D00680CE6 /* ADTs.swift */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		FA2E0D871CE3E47900C23797 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FAD6ECC11CE0041B00680CE6 /* InputOutputProtocols.swift */,
+				FA8C69A31CDDA6760001CD48 /* Console.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		FA2E0D881CE3E47F00C23797 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				FA72140E1CDC0E5300ADD604 /* main.swift */,
+				FA7214151CDC0E6700ADD604 /* Game.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		FA2E0D891CE3E48C00C23797 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FA2E0D841CE3E45B00C23797 /* Move */,
+				FA2E0D851CE3E46300C23797 /* Players */,
+				FA8C698F1CDD67F50001CD48 /* Token.swift */,
+				FA7214191CDC120500ADD604 /* Board.swift */,
+				FA7214171CDC114E00ADD604 /* Position.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		FA7214021CDC0E5300ADD604 = {
 			isa = PBXGroup;
 			children = (
@@ -89,23 +150,10 @@
 		FA72140D1CDC0E5300ADD604 /* nine-mans-morris */ = {
 			isa = PBXGroup;
 			children = (
-				FA8C69A11CDDA5210001CD48 /* SlideMove.swift */,
-				FA8C699F1CDDA4A50001CD48 /* FlyMove.swift */,
-				FA8C699D1CDDA2D10001CD48 /* PlaceMove.swift */,
-				FA8C699B1CDDA0120001CD48 /* TakeMove.swift */,
-				FA8C69911CDD6CA40001CD48 /* Player.swift */,
-				FA8C69931CDD746E0001CD48 /* HumanPlayer.swift */,
-				FA8C69991CDD9CA50001CD48 /* Move.swift */,
-				FA8C69951CDD74730001CD48 /* ComputerPlayer.swift */,
-				FAD6ECC31CE06A6D00680CE6 /* ADTs.swift */,
-				FA8C698F1CDD67F50001CD48 /* Token.swift */,
-				FA7214191CDC120500ADD604 /* Board.swift */,
-				FA7214171CDC114E00ADD604 /* Position.swift */,
-				FA72140E1CDC0E5300ADD604 /* main.swift */,
-				FA7214151CDC0E6700ADD604 /* Game.swift */,
-				FAD6ECC11CE0041B00680CE6 /* InputOutputProtocols.swift */,
-				FA8C69A31CDDA6760001CD48 /* Console.swift */,
-				FA8C698D1CDD5CD00001CD48 /* Int+nthBit.swift */,
+				FA2E0D861CE3E46900C23797 /* Utilities */,
+				FA2E0D891CE3E48C00C23797 /* Models */,
+				FA2E0D871CE3E47900C23797 /* Views */,
+				FA2E0D881CE3E47F00C23797 /* Controllers */,
 			);
 			path = "nine-mans-morris";
 			sourceTree = "<group>";

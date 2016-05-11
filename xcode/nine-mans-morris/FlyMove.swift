@@ -13,6 +13,7 @@
 class FlyMove: PlaceMove {
     ///
     /// The original position of the token before it is flown
+    /// - Remarks: Missing from original behaviours
     ///
     private let oldPosition: Position?
     
@@ -24,14 +25,21 @@ class FlyMove: PlaceMove {
         self.token?.takeOffBoard()
         self.oldPosition?.token = self.token
     }
-    
+
     ///
     /// Override for action to support removal of token from old position
-    /// - Remarks: **IMPLEMENTS** Remove token from its current position
     ///
     override func action() {
-        self.token?.takeOffBoard() // first take the token off the board
-        super.action() // then action it according to place
+        self.takeTokenOffBoard() // first take the token off the board
+        super.action()           // then action it according to place
+    }
+
+    ///
+    /// Takes the token off the board
+    /// - Remarks: **IMPLEMENTS** Remove token from its current position
+    ///
+    private func takeTokenOffBoard() {
+        self.token?.takeOffBoard()
     }
     
     // Override for init to set the old position of the token

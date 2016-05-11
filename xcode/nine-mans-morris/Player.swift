@@ -51,6 +51,11 @@ struct PlayerFactory {
 ///
 protocol Player {
     ///
+    /// Name of the player
+    ///
+    var name: String { get set }
+
+    ///
     /// The color of the player is a token color type. Set as an optional type as
     /// only active players will have a color.
     /// - Remarks: **IMPLEMENTS** "Get and Set color of player"
@@ -70,7 +75,7 @@ protocol Player {
     ///                       and "Get all positions of a player's tokens"
     ///
     var tokensOnBoard: [Position:Token] { get }
-    
+
     ///
     /// Returns the count of all tokens left on the board
     /// - Remarks: **IMPLEMENTS** "Get count of all player's tokens still on the board"
@@ -96,6 +101,23 @@ protocol Player {
     /// Returns the tokens that have not yet been placed on the board
     ///
     var tokensNotInitiallyPlaced: [Token] { get }
+
+    ///
+    /// Perform undo of move made by the player
+    /// - Remarks: **IMPLEMENTS** "Undo last move made"
+    ///
+    mutating func undoLastMove() -> Bool
+
+    ///
+    /// Checks if the player can undo the last turn
+    ///
+    var canUndoLastMove: Bool { get }
+
+    ///
+    /// Last moves made by the player
+    /// - Remarks: **IMPLEMENTS** "Get, set and clear the last move that was made"
+    ///
+    var lastMoves: Stack<Move> { get set }
 }
 
 // MARK: Implement extensions to Player for default behaviour
@@ -125,23 +147,31 @@ extension Player {
     
     // Default implementation of hasMill
     var hasMill: Bool {
-        for (pos, _) in self.tokensOnBoard {
-            let leftOwned   = pos.neighbors.left?.token?.ownedBy(self) ?? false
-            let rightOwned  = pos.neighbors.right?.token?.ownedBy(self) ?? false
-            let topOwned    = pos.neighbors.top?.token?.ownedBy(self) ?? false
-            let bottomOwned = pos.neighbors.bottom?.token?.ownedBy(self) ?? false
-            
-            // Mill only owned if left and right neighbors or top and bottom 
-            // neighbors are owned by this player
-            if (leftOwned && rightOwned) || (topOwned && bottomOwned) {
-                return true
-            }
-        }
-        return false
+        return self.tokens.contains({$0.isPartOfMill})
     }
     
     // Default implementation of hasPlacedAllTokens
     var hasPlacedAllTokens: Bool {
         return self.tokensNotInitiallyPlaced.isEmpty
+    }
+
+    // Default implementation of undoLastMove
+    mutating func undoLastMove() -> Bool {
+        if let lastMove = self.lastMoves.pop() {
+            // If the last move was a take move, we need to pop again to also undo
+            // the move that allowed the token to be taken in the first place
+            lastMove.undo()
+            if lastMove is TakeMove {
+                self.lastMoves.pop()!.undo()
+            }
+            return true
+        } else {
+            return false
+        }
+    }
+
+    // Default implementation of canUndoLastMove
+    var canUndoLastMove: Bool {
+        return !self.lastMoves.isEmpty
     }
 }

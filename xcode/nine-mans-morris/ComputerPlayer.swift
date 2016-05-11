@@ -13,11 +13,15 @@ class ComputerPlayer: Player {
     // MARK: Implement Player protocol
     internal(set) var color: Token.Color?
     internal(set) var tokens = [Token]()
+    internal(set) var name: String
+    internal(set) var lastMoves = Stack<Move>()
     
     // Prevent construction of computer players externally
     internal init() {
         // computers never active so color is nil
         self.color = nil
+        // computer's name is always AI
+        self.name = "AI"
     }
     
     ///
@@ -49,7 +53,8 @@ class ComputerPlayer: Player {
     ///
     /// Returns `true` iff the move provided allows a token to be taken after
     /// it is performed
-    /// - Remarks: **CHANGE** Need a way to check if a move has formed a mill and
+    /// - Remarks: Missing from original behaviours -  
+    ///            Need a way to check if a move has formed a mill and
     ///            if so take a token
     ///
     func checkMoveForTake(move: Move) -> Bool {
@@ -107,7 +112,11 @@ class ComputerPlayer: Player {
         }
         return isValidMove
     }
-    
+
+    ///
+    /// Asks the computer to perform a move
+    /// - Todo: This currently throws a `fatalError` as it is not yet implemented
+    ///
     func performMove(move: Move) -> Bool {
         fatalError("Computer player does not have AI to implement move")
     }

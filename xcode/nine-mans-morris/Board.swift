@@ -18,7 +18,7 @@ class Board {
     ///
     /// Bits representing if a position can exist at the given row (key)
     /// and column (value)
-    /// - Remarks: *CHANGE 2* Too hard to implement neighbors for a position whilst
+    /// - Remarks: *CHANGE* Too hard to implement neighbors for a position whilst
     ///            creating the position. Would require a public readwrite property
     ///            of neighbors, which is unsafe. This is a good workaround.
     ///
@@ -32,6 +32,7 @@ class Board {
     ///
     /// Returns `true` iff there is a position at the coordinates specified at
     /// `row` and `col`
+    /// - Remarks: Missing from original behaviours
     ///
     func validPosition(row row: Int, col: Int) -> Bool {
         return self.positionBits[row]?.nthBit(col) == 1
@@ -65,7 +66,7 @@ class Board {
     
     ///
     /// Finds the position of the specified token
-    /// - Paramaters token: The token to find
+    /// - Parameter token: The token to find
     /// - Returns: A position if found, otherwise `nil`
     /// - Remarks: **IMPLEMENTS** "Locate a specific token's position"
     ///

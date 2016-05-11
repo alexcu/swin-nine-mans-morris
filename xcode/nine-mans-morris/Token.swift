@@ -87,11 +87,13 @@ class Token: Hashable, Equatable {
     
     ///
     /// Returns whether or not the token has been placed (initially false)
+    /// - Remarks: Missing from original behaviours
     ///
     var isPlaced: Bool = false
     
     ///
     /// Returns the player who owns this token
+    /// - Remarks: Missing from original behaviours
     ///
     var owningPlayer: Player {
         guard let player = Game.sharedGame.players.filter({self.ownedBy($0)}).first else {
@@ -102,6 +104,7 @@ class Token: Hashable, Equatable {
     
     ///
     /// Returns `true` iff the token is surrounded by tokens
+    /// - Remarks: Missing from original behaviours
     ///
     var isSurrounded: Bool {
         return
@@ -158,7 +161,10 @@ class Token: Hashable, Equatable {
         // neighbors are owned by this player
         return ownedVertically || ownedHorizontally
     }
-    
+
+    ///
+    /// Initialiser for a token, accepting its color
+    ///
     init(color: Color) {
         self.color = color
     }
