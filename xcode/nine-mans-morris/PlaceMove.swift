@@ -33,7 +33,7 @@ class PlaceMove: Move {
 
     ///
     /// Places the token at the position
-    /// - Remarks: **IMPLEMENT** Place a specific token at a new position
+    /// - Remarks: **IMPLEMENTS** Place a specific token at a new position
     ///
     private func placeTokenAtPosition() {
         self.position?.token = self.token

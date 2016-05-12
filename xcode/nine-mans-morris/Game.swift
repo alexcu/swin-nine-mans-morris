@@ -23,7 +23,7 @@ class Game {
     ///
     /// The game state enum declares the three possible types of game state that
     /// can exist in a game of Nine Man's Morris
-    /// - Remarks: *CHANGE 1* Added a new state enum type as this was missing in the
+    /// - Remarks: *CHANGE* Added a new state enum type as this was missing in the
     ///            design
     ///
     enum State {
@@ -239,6 +239,6 @@ class Game {
             }
         }
         // Announce winner
-        announceWinner()
+        self.announceWinner()
     }
 }
