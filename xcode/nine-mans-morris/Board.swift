@@ -109,14 +109,19 @@ class Board {
                 for _ in cols {
                     var bits: Int = 0
                     if row % 6 == 0 {
+                        // Cols for first or last row (rows 0 and 6)
                         bits = 0b1001001
                     } else if 5 % row == 0 {
+                        // Cols for second or second-last row (rows 1 and 5)
                         bits = 0b0101010
                     } else if row % 2 == 0 {
+                        // Cols for the middle-surrounding rows (rows 2 and 4)
                         bits = 0b0011100
                     } else if row % 3 == 0 {
+                        // Cols for the middle row (row 3)
                         bits = 0b1110111
                     } else {
+                        // Row is within 0 to 6... use assertion as this never fails  
                         assertionFailure("Board creation logic cannot fail")
                     }
                     bitLogic[row] = bits

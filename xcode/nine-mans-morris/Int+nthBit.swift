@@ -13,7 +13,7 @@ extension Int {
     ///
     /// Returns the n'th bit of this integer
     ///
-    func nthBit(n: Int) -> Int {
-        return (self >> n) & 1
+    func nthBit(n: Int) -> Int? {
+        return self >= n ? (self >> n) & 1 : nil
     }
 }
