@@ -141,21 +141,17 @@ class Token: Hashable, Equatable {
             }
         }
         
-        // Check the ownership of the direction provided for the token provided
-        func checkOwnershipInDirection(dir: Direction, _ tok: Token?) -> Bool {
-            return countOfOwnershipInDirerction(dir, tok) == 3
+        // Count the number of tokens I own in the direction provided
+        func countOwnedTokens(dir: Direction, _ token: Token, _ count: Int = 0) -> Int {
+            let owned = token.ownedBy(owningPlayer) && token != self ? 1 : 0
+            guard let neighborToken = dir.neighbor(token)?.token else { return count + owned }
+            return count + owned + countOwnedTokens(dir, neighborToken, count)
         }
         
-        func countOfOwnershipInDirerction(dir: Direction, _ tok: Token?, _ count: Int = 0) -> Int {
-            guard let tok = tok else { return count }
-            let owned = tok.ownedBy(owningPlayer)
-            guard let neighbor = dir.neighbor(tok) else { return count + (owned ? 1 : 0) }
-            return count + (owned ? 1 : 0) + countOfOwnershipInDirerction(dir, neighbor.token, count)
-        }
-        
-        // Check vertically and horizontally
-        let ownedVertically   = checkOwnershipInDirection(.Bottom, self) || checkOwnershipInDirection(.Top, self)
-        let ownedHorizontally = checkOwnershipInDirection(.Left  , self) || checkOwnershipInDirection(.Right, self)
+        // Check vertically and horizontally (if there are two owned beside me
+        // then I know I have a mill)
+        let ownedVertically   = countOwnedTokens(.Bottom, self) + countOwnedTokens(.Top, self) == 2
+        let ownedHorizontally = countOwnedTokens(.Left  , self) + countOwnedTokens(.Right, self) == 2
         
         // Mill only owned if left and right neighbors or top and bottom
         // neighbors are owned by this player

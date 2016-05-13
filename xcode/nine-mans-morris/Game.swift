@@ -223,18 +223,16 @@ class Game {
                 continue
             }
             
-            let success = tryPerformMove(move)
-            
-            // Can now take after performing this move?
-            if ruleValidator.checkMoveForTake(move) {
-                // Keep asking while the move was a success
-                repeat {
-                    output.showAlert("You formed a mill! You may now take an opponent's token!")
-                } while !tryPerformMove(input.readTakeMove(self))
-            }
-        
-            // If the move was successful, swap the player
-            if success {
+            // If move was successfully made...
+            if tryPerformMove(move) {
+                // Can now take after performing this move?
+                if ruleValidator.checkMoveForTake(move) {
+                    // Keep asking while the move was a success
+                    repeat {
+                        output.showAlert("You formed a mill! You may now take an opponent's token!")
+                    } while !tryPerformMove(input.readTakeMove(self))
+                }
+                // Finally swap the player
                 self.proceedPlayer()
             }
         }
