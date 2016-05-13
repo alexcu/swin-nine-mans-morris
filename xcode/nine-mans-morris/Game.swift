@@ -99,7 +99,7 @@ class Game {
     
     ///
     /// Initialiser for a new game
-    /// - Remarks: **IMPLEMENTS**: "Set up a new game", "Set up board"
+    /// - Remarks: **IMPLEMENTS**: "Set up a new game", "Set up players", "Set up board"
     ///
     private init() {
         // Set up the board

@@ -54,7 +54,7 @@ class Token: Hashable, Equatable {
     var isOnBoard: Bool {
         // Ask the game's board to find this token. If not nil, then we know it
         // is on the board!
-        return Game.sharedGame.board.findToken(self) != nil
+        return self.position != nil
     }
     
     ///
@@ -64,10 +64,7 @@ class Token: Hashable, Equatable {
     ///                          "Remove a token from it's current position"
     ///
     func takeOffBoard() -> Bool {
-        guard let pos = Game.sharedGame.board.findToken(self) else {
-            return false
-        }
-        return pos.removeToken()
+        return self.position?.removeToken() ?? false
     }
     
     ///
