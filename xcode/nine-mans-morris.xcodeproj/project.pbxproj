@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		FA72140F1CDC0E5300ADD604 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA72140E1CDC0E5300ADD604 /* main.swift */; };
 		FA7214161CDC0E6700ADD604 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7214151CDC0E6700ADD604 /* Game.swift */; };
-		FA7214181CDC114E00ADD604 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7214171CDC114E00ADD604 /* Position.swift */; };
-		FA72141A1CDC120500ADD604 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7214191CDC120500ADD604 /* Board.swift */; };
+		FA7214181CDC114E00ADD604 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7214171CDC114E00ADD604 /* Board.swift */; };
+		FA72141A1CDC120500ADD604 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7214191CDC120500ADD604 /* Position.swift */; };
 		FA8C698E1CDD5CD00001CD48 /* Int+nthBit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C698D1CDD5CD00001CD48 /* Int+nthBit.swift */; };
 		FA8C69901CDD67F50001CD48 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C698F1CDD67F50001CD48 /* Token.swift */; };
 		FA8C69921CDD6CA40001CD48 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C69911CDD6CA40001CD48 /* Player.swift */; };
@@ -41,22 +41,22 @@
 /* Begin PBXFileReference section */
 		FA72140B1CDC0E5300ADD604 /* nine-mans-morris */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "nine-mans-morris"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA72140E1CDC0E5300ADD604 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		FA7214151CDC0E6700ADD604 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
-		FA7214171CDC114E00ADD604 /* Position.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
-		FA7214191CDC120500ADD604 /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
-		FA8C698D1CDD5CD00001CD48 /* Int+nthBit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+nthBit.swift"; sourceTree = "<group>"; };
-		FA8C698F1CDD67F50001CD48 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
-		FA8C69911CDD6CA40001CD48 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
-		FA8C69931CDD746E0001CD48 /* HumanPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HumanPlayer.swift; sourceTree = "<group>"; };
-		FA8C69951CDD74730001CD48 /* ComputerPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComputerPlayer.swift; sourceTree = "<group>"; };
-		FA8C69991CDD9CA50001CD48 /* Move.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
-		FA8C699B1CDDA0120001CD48 /* TakeMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TakeMove.swift; sourceTree = "<group>"; };
-		FA8C699D1CDDA2D10001CD48 /* PlaceMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceMove.swift; sourceTree = "<group>"; };
-		FA8C699F1CDDA4A50001CD48 /* FlyMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlyMove.swift; sourceTree = "<group>"; };
-		FA8C69A11CDDA5210001CD48 /* SlideMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideMove.swift; sourceTree = "<group>"; };
-		FA8C69A31CDDA6760001CD48 /* Console.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
-		FAD6ECC11CE0041B00680CE6 /* InputOutputProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputOutputProtocols.swift; sourceTree = "<group>"; };
-		FAD6ECC31CE06A6D00680CE6 /* ADTs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ADTs.swift; sourceTree = "<group>"; };
+		FA7214151CDC0E6700ADD604 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Game.swift; path = Controllers/Game.swift; sourceTree = "<group>"; };
+		FA7214171CDC114E00ADD604 /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Board.swift; path = Models/Board.swift; sourceTree = "<group>"; };
+		FA7214191CDC120500ADD604 /* Position.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Position.swift; path = Models/Position.swift; sourceTree = "<group>"; };
+		FA8C698D1CDD5CD00001CD48 /* Int+nthBit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Int+nthBit.swift"; path = "Utilities/Int+nthBit.swift"; sourceTree = "<group>"; };
+		FA8C698F1CDD67F50001CD48 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Token.swift; path = Models/Token.swift; sourceTree = "<group>"; };
+		FA8C69911CDD6CA40001CD48 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Player.swift; path = Models/Players/Player.swift; sourceTree = "<group>"; };
+		FA8C69931CDD746E0001CD48 /* HumanPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HumanPlayer.swift; path = Models/Players/HumanPlayer.swift; sourceTree = "<group>"; };
+		FA8C69951CDD74730001CD48 /* ComputerPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ComputerPlayer.swift; path = Models/Players/ComputerPlayer.swift; sourceTree = "<group>"; };
+		FA8C69991CDD9CA50001CD48 /* Move.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Move.swift; path = Models/Move/Move.swift; sourceTree = "<group>"; };
+		FA8C699B1CDDA0120001CD48 /* TakeMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TakeMove.swift; path = Models/Move/TakeMove.swift; sourceTree = "<group>"; };
+		FA8C699D1CDDA2D10001CD48 /* PlaceMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaceMove.swift; path = Models/Move/PlaceMove.swift; sourceTree = "<group>"; };
+		FA8C699F1CDDA4A50001CD48 /* FlyMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlyMove.swift; path = Models/Move/FlyMove.swift; sourceTree = "<group>"; };
+		FA8C69A11CDDA5210001CD48 /* SlideMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SlideMove.swift; path = Models/Move/SlideMove.swift; sourceTree = "<group>"; };
+		FA8C69A31CDDA6760001CD48 /* Console.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Console.swift; path = Views/Console.swift; sourceTree = "<group>"; };
+		FAD6ECC11CE0041B00680CE6 /* InputOutputProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputOutputProtocols.swift; path = Views/InputOutputProtocols.swift; sourceTree = "<group>"; };
+		FAD6ECC31CE06A6D00680CE6 /* ADTs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ADTs.swift; path = Utilities/ADTs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,7 +113,6 @@
 		FA2E0D881CE3E47F00C23797 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				FA72140E1CDC0E5300ADD604 /* main.swift */,
 				FA7214151CDC0E6700ADD604 /* Game.swift */,
 			);
 			name = Controllers;
@@ -125,8 +124,8 @@
 				FA2E0D841CE3E45B00C23797 /* Move */,
 				FA2E0D851CE3E46300C23797 /* Players */,
 				FA8C698F1CDD67F50001CD48 /* Token.swift */,
-				FA7214191CDC120500ADD604 /* Board.swift */,
-				FA7214171CDC114E00ADD604 /* Position.swift */,
+				FA7214191CDC120500ADD604 /* Position.swift */,
+				FA7214171CDC114E00ADD604 /* Board.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -150,6 +149,7 @@
 		FA72140D1CDC0E5300ADD604 /* nine-mans-morris */ = {
 			isa = PBXGroup;
 			children = (
+				FA72140E1CDC0E5300ADD604 /* main.swift */,
 				FA2E0D861CE3E46900C23797 /* Utilities */,
 				FA2E0D891CE3E48C00C23797 /* Models */,
 				FA2E0D871CE3E47900C23797 /* Views */,
@@ -229,9 +229,9 @@
 				FAD6ECC21CE0041B00680CE6 /* InputOutputProtocols.swift in Sources */,
 				FA8C698E1CDD5CD00001CD48 /* Int+nthBit.swift in Sources */,
 				FA8C69921CDD6CA40001CD48 /* Player.swift in Sources */,
-				FA72141A1CDC120500ADD604 /* Board.swift in Sources */,
+				FA72141A1CDC120500ADD604 /* Position.swift in Sources */,
 				FA8C699E1CDDA2D10001CD48 /* PlaceMove.swift in Sources */,
-				FA7214181CDC114E00ADD604 /* Position.swift in Sources */,
+				FA7214181CDC114E00ADD604 /* Board.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
