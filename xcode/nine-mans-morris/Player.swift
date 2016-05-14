@@ -127,8 +127,7 @@ extension Player {
     var tokensOnBoard: [Position:Token] {
         return self.tokens.reduce([Position:Token]()) { dict, tok in
             var dict = dict
-            // Find the position of this token, if not found continue to next token
-            if let pos = Game.sharedGame.board.findToken(tok) {
+            if let pos = tok.position {
                 dict.updateValue(tok, forKey: pos)
             }
             return dict
